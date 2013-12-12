@@ -11,7 +11,7 @@ DIRCOMMONSRC	= common_src/
 DIRCOMMONOBJ	= common_obj/
 DIRCOMMONINC	= common_inc/
 
-DEBUG		= no
+DEBUG		= yes
 
 ifeq ($(DEBUG), no)
 		OPTI	= -Os -s
@@ -63,7 +63,8 @@ COMMONSRC	= $(DIRCOMMONSRC)person.c \
 
 CLIENTSRC	= $(DIRCLIENTSRC)main.c \
 
-SERVERSRC	= $(DIRSERVERSRC)dataServer.c \
+SERVERSRC	= $(DIRSERVERSRC)main.c \
+		  $(DIRSERVERSRC)dataServer.c \
 
 SERVEROBJ = $(subst $(DIRSERVERSRC),$(DIRSERVEROBJ),$(SERVERSRC:.c=.o))
 
