@@ -10,7 +10,6 @@ DIRCLIENTINC	= client_inc/
 DIRCOMMONSRC	= common_src/
 DIRCOMMONOBJ	= common_obj/
 DIRCOMMONINC	= common_inc/
-DIREXTLIBSINC	= extlibs/include/
 
 DEBUG		= no
 
