@@ -23,9 +23,7 @@ typedef struct s_person {
     /*Person();
 	Person(Person Daddy, Person Mummy, Door theDoor, t_dot2d);
 	~Person();*/
-	void calculMark(t_obstacle *tabObs[_MAX_OBSTACLE], t_door theDoor, t_dot2d flag);
-	//Getters
-	
+	void calculMark(t_obstacle *tabObs[_MAX_OBSTACLE], t_door theDoor, t_dot2d flag);	
 	direction* crossOver(t_person Daddy, t_person Mummy, t_door theDoor, t_dot2d flag);
 
 	

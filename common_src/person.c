@@ -98,6 +98,7 @@ void calculMark(t_person pers, t_obstacle* tabObs[_MAX_OBSTACLE], t_door theDoor
 		//printf("$$ %d $$ ",MaxMark);
 		mark=MaxMark-(distanceLeft(currentPos, theDoor)*_MAX_MARK/2)/(distanceBetweenStartStop(theDoor, theFlag));
 	}
+	pers.mark=mark;
 };
 
 direction* crossOver(Person Daddy, Person Mummy, Door theDoor, t_dot2d theFlag)
