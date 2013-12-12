@@ -5,7 +5,7 @@
 ** Contact   <cataldo.nico@gmail.com>
 ** 
 ** Started on  Thu Dec 12 15:53:11 2013 Nicolas Cataldo
-** Last update Thu Dec 12 17:27:09 2013 Nicolas Cataldo
+** Last update Thu Dec 12 18:33:30 2013 Nicolas Cataldo
 */
 
 #ifndef			_DATA_H_
@@ -27,6 +27,7 @@ enum e_obs_size{size01 = 20, size02 = 40,
 		size07 = 140, size08 = 160,
 		size09 = 180, size10 = 200};
 
+typedef enum e_obs_size t_obs_size;
 
 typedef struct		s_door
 {
@@ -42,7 +43,7 @@ typedef struct		s_door
 
 typedef struct		s_obstacle
 {
-  e_obs_size		obsSize;
+  t_obs_size		obsSize;
   int			obsRadius;
   SDL_Rect		obsSource;
   t_dot2d		obsCenter;
