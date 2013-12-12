@@ -35,7 +35,7 @@ LDFLAGSCOMMON	= -lSDL_image -lpthread -lnsl \
 
 RM		= rm -f
 
-CPP		= g++
+CC		= gcc
 
 RED		= "\\033[1\;31m"
 
@@ -53,16 +53,14 @@ NOCOLOR		= "\\033[0\;0m"
 
 ECHO		= /bin/echo -e
 
-COMMONSRC	= $(DIRCOMMONSRC)door.cpp \
-		  $(DIRCOMMONSRC)obstacle.cpp \
-		  $(DIRCOMMONSRC)person.cpp \
-		  $(DIRCOMMONSRC)point2D.cpp \
-		  $(DIRCOMMONSRC)xdrData.cpp \
+COMMONSRC	= $(DIRCOMMONSRC)person.c \
+		  $(DIRCOMMONSRC)dataCommon.c \
 
-CLIENTSRC	= $(DIRCLIENTSRC)main.cpp \
+CLIENTSRC	= $(DIRCLIENTSRC)main.c \
+		  $(DIRCLIENTSRC)data.c \
 
 
-SERVERSRC	= $(DIRSERVERSRC)main.cpp \
+SERVERSRC	= $(DIRSERVERSRC)dataServer.c \
 
 SERVEROBJ = $(subst $(DIRSERVERSRC),$(DIRSERVEROBJ),$(SERVERSRC:.cpp=.o))
 
@@ -76,21 +74,21 @@ CLIENTNAME		= client
 all:		$(CLIENTNAME) $(SERVERNAME)
 
 $(CLIENTNAME):	$(COMMONOBJ) $(CLIENTOBJ)
-	$(CPP) -o $(CLIENTNAME) $(CLIENTOBJ) $(COMMONOBJ)  $(LDFLAGSCLIENT) `sdl-config --libs`
+	$(CC) -o $(CLIENTNAME) $(CLIENTOBJ) $(COMMONOBJ)  $(LDFLAGSCLIENT) `sdl-config --libs`
 	@$(ECHO) "$(BLUE)\n$(CLIENTNAME) compiled.\n$(NOCOLOR)"
 
 $(SERVERNAME):	$(COMMONOBJ) $(SERVEROBJ)
-	$(CPP) -o $(SERVERNAME) $(SERVEROBJ) $(COMMONOBJ) $(LDFLAGSSERVER) `sdl-config --libs`
+	$(CC) -o $(SERVERNAME) $(SERVEROBJ) $(COMMONOBJ) $(LDFLAGSSERVER) `sdl-config --libs`
 	@$(ECHO) "$(BLUE)\n$(SERVERNAME) compiled.\n$(NOCOLOR)"
 
-$(DIRCOMMONOBJ)%.o: $(DIRCOMMONSRC)%.cpp
-	$(CPP) -o $@ -c $< $(CFLAGS) `sdl-config --libs`
+$(DIRCOMMONOBJ)%.o: $(DIRCOMMONSRC)%.c
+	$(CC) -o $@ -c $< $(CFLAGS) `sdl-config --libs`
 
-$(DIRCLIENTOBJ)%.o: $(DIRCLIENTSRC)%.cpp
-	$(CPP) -o $@ -c $< $(CFLAGS) $(LDFLAGSCLIENT) `sdl-config --libs`
+$(DIRCLIENTOBJ)%.o: $(DIRCLIENTSRC)%.c
+	$(CC) -o $@ -c $< $(CFLAGS) $(LDFLAGSCLIENT) `sdl-config --libs`
 
-$(DIRSERVEROBJ)%.o: $(DIRSERVERSRC)%.cpp
-	$(CPP) -o $@ -c $< $(CFLAGS) $(LDFLAGSSERVER) `sdl-config --libs`
+$(DIRSERVEROBJ)%.o: $(DIRSERVERSRC)%.c
+	$(CC) -o $@ -c $< $(CFLAGS) $(LDFLAGSSERVER) `sdl-config --libs`
 
 clean:
 	@$(RM) $(COMMONOBJ) $(SERVEROBJ) $(CLIENTOBJ)
