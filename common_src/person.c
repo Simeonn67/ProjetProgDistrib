@@ -1,6 +1,4 @@
 #include "person.h"
-#include "data.h"
-
 
 /*t_dot2dPerson()
 {

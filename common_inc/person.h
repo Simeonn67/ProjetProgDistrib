@@ -1,9 +1,7 @@
 #ifndef _PERSON_H_
 #define _PERSON_H_
 
-#include "data.h"
-
-using namespace std;
+#include "infoGame.h"
 
 #define _MAX_PATH_SIZE 3000
 //#define _DISTANCE_ 16

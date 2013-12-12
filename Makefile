@@ -27,14 +27,18 @@ CFLAGS		= -Wall \
 		  $(OPTI)
 
 LDFLAGSCLIENT	= -lrpcsvc -lnsl -lSDL_image -lpthread \
+		  -I $(DIRCOMMONINC) -I $(DIRCLIENTINC)
 
 LDFLAGSSERVER	= -lSDL_image -lpthread -lnsl \
+		  -I $(DIRCOMMONINC) -I $(DIRSERVERINC)
 
 LDFLAGSCOMMON	= -lSDL_image -lpthread -lnsl \
+		  -I $(DIRCOMMONINC) -I $(DIRSERVERINC) \
+		  -I $(DIRCLIENTINC)
 
 RM		= rm -f
 
-CC		= gcc
+CC		= cc
 
 RED		= "\\033[1\;31m"
 
@@ -54,18 +58,17 @@ ECHO		= /bin/echo -e
 
 COMMONSRC	= $(DIRCOMMONSRC)person.c \
 		  $(DIRCOMMONSRC)dataCommon.c \
+		  $(DIRCOMMONSRC)data.c \
 
 CLIENTSRC	= $(DIRCLIENTSRC)main.c \
-		  $(DIRCLIENTSRC)data.c \
-
 
 SERVERSRC	= $(DIRSERVERSRC)dataServer.c \
 
-SERVEROBJ = $(subst $(DIRSERVERSRC),$(DIRSERVEROBJ),$(SERVERSRC:.cpp=.o))
+SERVEROBJ = $(subst $(DIRSERVERSRC),$(DIRSERVEROBJ),$(SERVERSRC:.c=.o))
 
-CLIENTOBJ = $(subst $(DIRCLIENTSRC),$(DIRCLIENTOBJ),$(CLIENTSRC:.cpp=.o))
+CLIENTOBJ = $(subst $(DIRCLIENTSRC),$(DIRCLIENTOBJ),$(CLIENTSRC:.c=.o))
 
-COMMONOBJ = $(subst $(DIRCOMMONSRC),$(DIRCOMMONOBJ),$(COMMONSRC:.cpp=.o))
+COMMONOBJ = $(subst $(DIRCOMMONSRC),$(DIRCOMMONOBJ),$(COMMONSRC:.c=.o))
 
 SERVERNAME		= server
 CLIENTNAME		= client
