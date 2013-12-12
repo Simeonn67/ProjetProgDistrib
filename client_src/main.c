@@ -1,5 +1,5 @@
 #include "person.h"
-//#include "xdr_entiers2.h"
+#include "xdrData.h"
 #include <rpc/types.h>
 #include <rpc/xdr.h>
 #include <rpc/rpc.h>
@@ -28,8 +28,7 @@ void displayVillage()
 	}
 }
 
-//int main(int argc, char *argv[])
-int main(void)
+int main(int argc, char *argv[])
 {
 	srand(time(NULL));
 	int i,j,randomInteger;
@@ -50,9 +49,10 @@ int main(void)
       path[i] = randomDirection;
     }
 */
+		village[i]=malloc(sizeof(village));
 		village[i]->current=0;
 		village[i]->mark=-1;
-		for(j=0;j<_MAX_PATH_SIZE;i++)
+		for(j=0;j<_MAX_PATH_SIZE;j++)
 		{
 			randomInteger=rand()%8+1;
 			village[i]->path[j]=randomInteger;
@@ -109,17 +109,21 @@ int main(void)
 	//village[1]->calculMark(tabObs,*theDoor,theFlag);
 	
 //	displayVillage();
-	for(i=0;i<MAX_POP;i++)
+/*	for(i=0;i<MAX_POP;i++)
 	{
 		calculMark(village[i],tabObs,*theDoor,theFlag);
 		
 		printf("%d\n",village[i]->mark);
-	}
+	}*/
 	//printf("%d",village[1]->getMark());
 		//displayVillage();
-
-/*  char *host = argv[1];
-  enum clnt_stat stat;*/
+if(argc<2)
+{
+	printf("No enough params!\n");
+	exit(1);
+}
+  char *host = argv[1];
+  enum clnt_stat stat;
 	/*deuxmatricesopeplus aEnvoyer = {mat1,mat2,1,taille};
 	if(atoi(argv[2])==1)
 	{
@@ -131,14 +135,25 @@ int main(void)
 		printf("2\n");
 		aEnvoyer.ope=2;
 	}*/
-  /*stat = callrpc(host,PROGNUM,VERSNUM,PROCNUM,(xdrproc_t)xdr_entiers2,(char*)&donnees,(xdrproc_t)xdr_entiers2,(char*)&donnees); 
+	dataStruct test;
+	test.clientId=0;
+	test.dataFlag=0;
+	test.dataSize=0;
+	test.dataRaw=NULL;
+	test.intRaw=malloc(100*sizeof(int));
+	int a;
+	for(a=0;a<100;a++)
+		test.intRaw[a]=a;
+	
+  stat = callrpc(host,PROGNUM,VERSNUM,PROCNUM,(xdrproc_t)xdrDataFilter,(char*)&test,(xdrproc_t)xdrDataFilter,(char*)&test); 
   if (stat != RPC_SUCCESS) { 
     fprintf(stderr, "Echec de l'appel distant\n");
-    clnt_perrno(stat);      fprintf(stderr, "\n");
+    clnt_perrno(stat);
+    fprintf(stderr, "\n");
   } else {
 	  printf("Return!\n");
   }
-  return(0);*/
+  return(0);
 
 	
 

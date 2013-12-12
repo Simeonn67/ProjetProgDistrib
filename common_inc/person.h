@@ -9,11 +9,10 @@
 #define _PERCENT_ALLOWED 80
 #define _MAX_MARK 100
 
-enum direction { Left, Right, Up, Down, UpLeft, DownLeft, UpRight, DownRight };
+enum e_direction { Left, Right, Up, Down, UpLeft, DownLeft, UpRight, DownRight };
 enum crossOv {LeftSide,RightSide};
-#define true 1
-#define false 0
-#define direction int
+typedef enum e_direction direction;
+
 
 typedef struct s_person {
 	int current;
@@ -28,9 +27,9 @@ typedef struct s_person {
 	direction* crossOver(t_person Daddy, t_person Mummy, t_door theDoor, t_dot2d flag);
 
 	
-	int Conflict(t_dot2d currentPos, t_obstacle* tabObs[_MAX_OBSTACLE]);
+	bool Conflict(t_dot2d currentPos, t_obstacle* tabObs[_MAX_OBSTACLE]);
 	float distanceLeft(t_dot2d currentPos, t_door theDoor);
-	int isInTheDoor(t_dot2d currentPos, t_door theDoor);
+	bool isInTheDoor(t_dot2d currentPos, t_door theDoor);
 	int min(int i, int j);
 	float distanceBetweenStartStop(t_door,t_dot2d);
 

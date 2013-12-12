@@ -59,6 +59,7 @@ ECHO		= /bin/echo -e
 COMMONSRC	= $(DIRCOMMONSRC)person.c \
 		  $(DIRCOMMONSRC)dataCommon.c \
 		  $(DIRCOMMONSRC)infoGame.c \
+		  $(DIRCOMMONSRC)xdrData.c \
 
 CLIENTSRC	= $(DIRCLIENTSRC)main.c \
 
