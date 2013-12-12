@@ -18,16 +18,18 @@ t_person* village[MAX_POP];
 
 void displayVillage()
 {
-	for(int i=0;i<MAX_POP;i++)
+	int i,j;
+	for(i=0;i<MAX_POP;i++)
 	{
 		printf("%d[",i);
-		for(int j=0;j<_MAX_PATH_SIZE;j++)
-			printf("%d",village[i].path[j]);
+		for(j=0;j<_MAX_PATH_SIZE;j++)
+			printf("%d",village[i]->path[j]);
 		printf("]\n\n\n");
 	}
 }
 
-int main(int argc, char *argv[])
+//int main(int argc, char *argv[])
+int main(void)
 {
 	srand(time(NULL));
 	int i,j,randomInteger;
@@ -48,16 +50,16 @@ int main(int argc, char *argv[])
       path[i] = randomDirection;
     }
 */
-		village[i].current=0;
-		village[i].mark=-1;
-		for(j=0;j<_MATH_PATH_SIZE;i++)
+		village[i]->current=0;
+		village[i]->mark=-1;
+		for(j=0;j<_MAX_PATH_SIZE;i++)
 		{
 			randomInteger=rand()%8+1;
-			village[i].path[j]=randomInteger;
+			village[i]->path[j]=randomInteger;
 		}
       //village[i] = new Person();
     }
-  int newObsSize = 0;
+  /*int newObsSize = 0;
   int newObsPosX = 0;
   int newObsPosY = 0; 
   t_obstacle* newObstacle;
@@ -72,7 +74,7 @@ int main(int argc, char *argv[])
 
   srand (time(NULL));
 
-	/*for(i=0;i<_MAX_OBSTACLE;i++)
+	for(i=0;i<_MAX_OBSTACLE;i++)
     {
       newObsSize = rand() % 10 + 1;
       newObstacle = new Obstacle(screen, newObsSize);
@@ -107,11 +109,11 @@ int main(int argc, char *argv[])
 	//village[1]->calculMark(tabObs,*theDoor,theFlag);
 	
 //	displayVillage();
-	for(int i=0;i<MAX_POP;i++)
+	for(i=0;i<MAX_POP;i++)
 	{
-		village[i].mark=calculMark(village[i],tabObs,*theDoor,theFlag);
+		calculMark(village[i],tabObs,*theDoor,theFlag);
 		
-		printf("%d\n",village[i].mark);
+		printf("%d\n",village[i]->mark);
 	}
 	//printf("%d",village[1]->getMark());
 		//displayVillage();
@@ -138,12 +140,12 @@ int main(int argc, char *argv[])
   }
   return(0);*/
 
+	
 
-
-  for(int j=0;j<MAX_POP;j++)
+	for(j=0;j<MAX_POP;j++)
     {
       free(village[j]);
     }
-
-};
+	return 0;
+}
 

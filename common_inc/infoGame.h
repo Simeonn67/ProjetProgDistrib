@@ -18,6 +18,7 @@
 
 #include		"dataCommon.h"
 
+#define _MAX_OBSTACLE	15
 
 typedef struct		s_door
 {

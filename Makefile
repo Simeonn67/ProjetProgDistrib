@@ -26,13 +26,13 @@ CFLAGS		= -Wall \
 		  -I $(DIRCOMMONINC) \
 		  $(OPTI)
 
-LDFLAGSCLIENT	= -lrpcsvc -lnsl -lSDL_image -lpthread \
+LDFLAGSCLIENT	= -lm -lrpcsvc -lnsl -lSDL_image -lpthread \
 		  -I $(DIRCOMMONINC) -I $(DIRCLIENTINC)
 
-LDFLAGSSERVER	= -lSDL_image -lpthread -lnsl \
+LDFLAGSSERVER	= -lm -lSDL_image -lpthread -lnsl \
 		  -I $(DIRCOMMONINC) -I $(DIRSERVERINC)
 
-LDFLAGSCOMMON	= -lSDL_image -lpthread -lnsl \
+LDFLAGSCOMMON	= -lm -lSDL_image -lpthread -lnsl \
 		  -I $(DIRCOMMONINC) -I $(DIRSERVERINC) \
 		  -I $(DIRCLIENTINC)
 
@@ -58,7 +58,7 @@ ECHO		= /bin/echo -e
 
 COMMONSRC	= $(DIRCOMMONSRC)person.c \
 		  $(DIRCOMMONSRC)dataCommon.c \
-		  $(DIRCOMMONSRC)data.c \
+		  $(DIRCOMMONSRC)infoGame.c \
 
 CLIENTSRC	= $(DIRCLIENTSRC)main.c \
 
