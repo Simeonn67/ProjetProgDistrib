@@ -5,13 +5,14 @@
 ** Contact   <cataldo.nico@gmail.com>
 ** 
 ** Started on  Thu Dec 12 19:28:12 2013 Nicolas Cataldo
-** Last update Thu Dec 12 21:23:13 2013 Nicolas Cataldo
+** Last update Thu Dec 12 22:03:44 2013 Nicolas Cataldo
 */
 
 #include		<stdio.h>
 #include 		<stdlib.h>
 #include		<string.h>
 #include		<math.h>
+#include		<time.h>
 #include		<SDL/SDL.h>
 #include		<SDL/SDL_image.h>
 #include		<SDL/SDL_thread.h>
@@ -37,9 +38,12 @@ void			initDoor()
   theDoor.screen = screen;
   theDoor.doorSource.x = _SCREEN_WIDTH - theDoor.doorWidth;
   theDoor.doorSource.y = (_SCREEN_HEIGHT/2) - (theDoor.doorHeight/2);
-  theDoor.obsSurface = IMG_Load("./res/img/door.png");
+  theDoor.doorSurface = IMG_Load("./res/img/door.png");
   theDoor.doorCenter.x = _SCREEN_WIDTH - theDoor.doorWidth/2;
   theDoor.doorCenter.y = _SCREEN_HEIGHT/2;
+
+  SDL_BlitSurface(theDoor.doorSurface, NULL, screen, &(theDoor.doorSource));
+  SDL_Flip(screen);  
 }
 
 void			loadObstacleImg(int pos, int numObs)
@@ -100,8 +104,9 @@ void			generateWorld()
   int			newObsPosX;
   int			newObsPosY;
   int			nbObs;
-  bool			posAvailable;
-  Obstacle		*newObstacle;
+  int			posAvailable;
+  int			i;
+  int 			y;
 
   newObsSize=0;
   newObsPosX=0;
@@ -117,31 +122,31 @@ void			generateWorld()
   flag = IMG_Load( ("./res/img/flag.png") );
   posFlag.x = 100;
   posFlag.y = (_SCREEN_HEIGHT/2) - 138/2;
+  
   SDL_BlitSurface(flag, NULL, screen, &posFlag);
-
   SDL_Flip(screen);
 
   initDoor();
 
-  for (int i=0;i<_MAX_OBSTACLE;i++)
+  for (i=0;i<_MAX_OBSTACLE;i++)
     {
       newObsSize = rand() % 10 + 1;
       loadObstacleImg(i, newObsSize);
-      posAvailable = false;
+      posAvailable = 0;
 
-      while (posAvailable == false)
+      while (posAvailable == 0)
         {
-          posAvailable = true;
+          posAvailable = 1;
 
           newObsPosX = rand() % ((3*_SCREEN_WIDTH)/4) + (_SCREEN_WIDTH/4) ;
           newObsPosY = rand() % _SCREEN_HEIGHT;
 	  setObstaclePos(i, newObsPosX, newObsPosY);
           
-          for (int y=0;y<nbObs;y++)
+          for (y=0;y<nbObs;y++)
             {
               if (isObstacleInCollision(tabObs[i], tabObs[y]))
                 {
-                  posAvailable = false;
+                  posAvailable = 0;
                   break;
 		}
             }
@@ -159,5 +164,22 @@ void			generateWorld()
 int main(void)
 {
     
+  SDL_Init(SDL_INIT_VIDEO);
+  screen = SDL_SetVideoMode(_SCREEN_WIDTH, _SCREEN_HEIGHT, 32, SDL_HWSURFACE);
+  generateWorld();
+  while( exitMainLoop == 0 ){
+    SDL_WaitEvent(&event);
+    if (event.type == SDL_QUIT)
+      exitMainLoop = 1;
+    else if (event.type == SDL_KEYDOWN)
+      {
+	if (event.key.keysym.sym == SDLK_g)
+	  generateWorld();
+	else if (event.key.keysym.sym == SDLK_q)
+	  {
+	    exitMainLoop = 1;
+	  }
+      }
+  }
   return 0;
 }

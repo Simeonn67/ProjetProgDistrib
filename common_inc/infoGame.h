@@ -5,7 +5,7 @@
 ** Contact   <cataldo.nico@gmail.com>
 ** 
 ** Started on  Thu Dec 12 08:06:49 2013 Nicolas Cataldo
-** Last update Thu Dec 12 17:26:44 2013 Nicolas Cataldo
+** Last update Thu Dec 12 21:39:05 2013 Nicolas Cataldo
 */
 
 #ifndef _INFOGAME_H_
@@ -34,7 +34,7 @@ typedef struct		s_door
 
 typedef struct		s_obstacle
 {
-   int			obsRadius;
+  int			obsRadius;
   t_dot2d		obsSource;
   t_dot2d		obsCenter;
 }			t_obstacle;

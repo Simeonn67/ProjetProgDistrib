@@ -5,7 +5,7 @@
 ** Contact   <cataldo.nico@gmail.com>
 ** 
 ** Started on  Thu Dec 12 15:53:11 2013 Nicolas Cataldo
-** Last update Thu Dec 12 18:33:30 2013 Nicolas Cataldo
+** Last update Thu Dec 12 21:54:59 2013 Nicolas Cataldo
 */
 
 #ifndef			_DATA_H_
@@ -35,8 +35,8 @@ typedef struct		s_door
   unsigned short int	doorWidth;
   SDL_Rect		doorSource;
   t_dot2d		doorCenter;
-  SDL_Surface		doorSurface;
-  SDL_Surface		screen;
+  SDL_Surface		*doorSurface;
+  SDL_Surface		*screen;
 }			t_door;
 
 
@@ -47,11 +47,11 @@ typedef struct		s_obstacle
   int			obsRadius;
   SDL_Rect		obsSource;
   t_dot2d		obsCenter;
-  SDL_Surface		obsSurface;
-  SDL_Surface		screen;
+  SDL_Surface		*obsSurface;
+  SDL_Surface		*screen;
 }			t_obstacle;
 
-
+int			isObstacleInCollision(t_obstacle newObstacle, t_obstacle testedObstacle);
 
 
 #endif /* _DATA_H_ */
