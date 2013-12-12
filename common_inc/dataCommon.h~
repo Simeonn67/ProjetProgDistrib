@@ -1,0 +1,16 @@
+/*
+** dataCommon.h for geneticPath in /home/mjolnir
+** 
+** Made by Nicolas Cataldo
+** Contact   <cataldo.nico@gmail.com>
+** 
+** Started on  Thu Dec 12 16:18:19 2013 Nicolas Cataldo
+** Last update Thu Dec 12 16:18:34 2013 Nicolas Cataldo
+*/
+
+#ifndef _DATACOMMON_H_
+#define _DATACOMMON_H_
+
+
+
+#endif /* _DATACOMMON_H_ */
