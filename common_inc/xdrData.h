@@ -5,7 +5,7 @@
 ** Contact   <cataldo.nico@gmail.com>
 ** 
 ** Started on  Fri Dec 13 00:52:33 2013 Nicolas Cataldo
-** Last update Fri Dec 13 03:02:38 2013 Nicolas Cataldo
+** Last update Fri Dec 13 04:28:35 2013 Nicolas Cataldo
 */
 
 
@@ -32,7 +32,7 @@ typedef struct s_game_data
 {
   int			flag;
   int			idClient;
-  u_int			size;
+  int			size;
   t_xdr_door		door;
   t_xdr_obstacle	*tabObs;
   t_person		*tabPerson;

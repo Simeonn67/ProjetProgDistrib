@@ -31,6 +31,7 @@ int main(int argc, char **argv)
 {
   char 			*host;
   t_game_data		data;
+  t_game_data		res;
   enum clnt_stat 	stat;
   int			i;
 
@@ -45,6 +46,9 @@ int main(int argc, char **argv)
   data.flag = 0;
   data.idClient = 0;
   data.size = 0;
+  data.tabObs=NULL;
+  
+  res.tabObs=NULL;
 
   stat = callrpc(host
 		 ,PROGNUM
@@ -53,7 +57,7 @@ int main(int argc, char **argv)
 		 ,(xdrproc_t) xdr_game_data
 		 ,(char*)&data
 		 ,(xdrproc_t) xdr_game_data
-		 ,(char*)&data
+		 ,(char*)&res
 		 );
 
   if (stat != RPC_SUCCESS)
@@ -67,15 +71,15 @@ int main(int argc, char **argv)
       printf("Call Succes dude \n");
       
       i = 0;
-
-      for (i=0; i<data.size; i++)
-	{
-	  printf("Obs num %d : %d Radius, x_src = %d, y_src = %d \n"
-	     ,i
-	     ,data.tabObs[i].obsRadius
-	     ,data.tabObs[i].obsSource.x
-	     ,data.tabObs[i].obsSource.y); 
-	}
+      printf(" data size %d \n", res.size);
+      for (i=0; i<res.size; i++)
+      	{
+      	  printf("Obs num %d : %d Radius, x_src = %d, y_src = %d \n"
+      	     ,i
+      	     ,res.tabObs[i].obsRadius
+      	     ,res.tabObs[i].obsSource.x
+      	     ,res.tabObs[i].obsSource.y);
+      	}
 
       
 
