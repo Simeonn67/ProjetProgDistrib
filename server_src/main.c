@@ -5,7 +5,7 @@
 ** Contact   <cataldo.nico@gmail.com>
 ** 
 ** Started on  Thu Dec 12 19:28:12 2013 Nicolas Cataldo
-** Last update Thu Dec 12 22:03:44 2013 Nicolas Cataldo
+** Last update Fri Dec 13 02:11:16 2013 Nicolas Cataldo
 */
 
 #include		<stdio.h>
@@ -17,12 +17,8 @@
 #include		<SDL/SDL_image.h>
 #include		<SDL/SDL_thread.h>
 
-
 #include		"dataServer.h"
-
-#define			_SCREEN_HEIGHT 720
-#define			_SCREEN_WIDTH 1280
-#define			_MAX_OBSTACLE 10
+#include		"xdrData.h"
 
 SDL_Surface		*screen = NULL;
 SDL_Event		event;
@@ -37,10 +33,10 @@ void			initDoor()
   theDoor.doorWidth = 89;
   theDoor.screen = screen;
   theDoor.doorSource.x = _SCREEN_WIDTH - theDoor.doorWidth;
-  theDoor.doorSource.y = (_SCREEN_HEIGHT/2) - (theDoor.doorHeight/2);
+  theDoor.doorSource.y = (10+(rand () % ( (_SCREEN_HEIGHT-80) -10 + 1)));
   theDoor.doorSurface = IMG_Load("./res/img/door.png");
-  theDoor.doorCenter.x = _SCREEN_WIDTH - theDoor.doorWidth/2;
-  theDoor.doorCenter.y = _SCREEN_HEIGHT/2;
+  theDoor.doorCenter.x = theDoor.doorSource.x + theDoor.doorWidth/2; 
+  theDoor.doorCenter.y = theDoor.doorSource.y + theDoor.doorHeight/2; 
 
   SDL_BlitSurface(theDoor.doorSurface, NULL, screen, &(theDoor.doorSource));
   SDL_Flip(screen);  
@@ -82,6 +78,8 @@ void			loadObstacleImg(int pos, int numObs)
       break;
     default : break;
     }
+
+  tabObs[pos].obsRadius = tabObs[pos].obsSize/2; 
 };
 
 
@@ -90,8 +88,8 @@ void			setObstaclePos(int pos, int x, int y)
   tabObs[pos].obsSource.x = x;
   tabObs[pos].obsSource.y = y;
 
-  tabObs[pos].obsCenter.x = tabObs[pos].obsSource.x + tabObs[pos].obsRadius;
   tabObs[pos].obsCenter.y = tabObs[pos].obsSource.y + tabObs[pos].obsRadius;
+  tabObs[pos].obsCenter.x = tabObs[pos].obsSource.x + tabObs[pos].obsRadius;
 };
 
 void			generateWorld()
@@ -107,12 +105,14 @@ void			generateWorld()
   int			posAvailable;
   int			i;
   int 			y;
+  int			randomNbObs;
+  t_obstacle		avoidDoor;
 
   newObsSize=0;
   newObsPosX=0;
   newObsPosY=0;
   nbObs=0;
-
+  
   srand (time(NULL));
 
   fond = IMG_Load( ("./res/img/fond.png") );
@@ -128,7 +128,17 @@ void			generateWorld()
 
   initDoor();
 
-  for (i=0;i<_MAX_OBSTACLE;i++)
+  avoidDoor.obsSize =  size05;
+  avoidDoor.obsRadius = avoidDoor.obsSize/2;
+  avoidDoor.obsSource.x = theDoor.doorSource.x;
+  avoidDoor.obsSource.y = theDoor.doorSource.y;
+  avoidDoor.obsCenter.x = theDoor.doorCenter.x;
+  avoidDoor.obsCenter.y = theDoor.doorCenter.y;
+
+
+  randomNbObs = (10+(rand () % (_MAX_OBSTACLE-10+1))); 
+
+  for (i=0;i<randomNbObs;i++)
     {
       newObsSize = rand() % 10 + 1;
       loadObstacleImg(i, newObsSize);
@@ -150,6 +160,9 @@ void			generateWorld()
                   break;
 		}
             }
+
+	  if (isObstacleInCollision(tabObs[i], avoidDoor))
+	    posAvailable = 0;
         }
       nbObs++;
 

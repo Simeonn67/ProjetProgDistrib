@@ -15,22 +15,22 @@ typedef enum e_direction direction;
 
 
 typedef struct s_person {
-	int current;
-	int mark;
-	direction path[_MAX_PATH_SIZE];
+  int current;
+  int mark;
+  direction path[_MAX_PATH_SIZE];
 } t_person;
 
     /*Person();
 	Person(Person Daddy, Person Mummy, Door theDoor, t_dot2d);
 	~Person();*/
-	void calculMark(t_person* pers, t_obstacle *tabObs[_MAX_OBSTACLE], t_door theDoor, t_dot2d flag);	
-	direction* crossOver(t_person Daddy, t_person Mummy, t_door theDoor, t_dot2d flag);
+	void calculMark(t_person* pers, t_xdr_obstacle *tabObs[_MAX_OBSTACLE], t_xdr_door theDoor, t_dot2d flag);	
+	direction* crossOver(t_person Daddy, t_person Mummy, t_xdr_door theDoor, t_dot2d flag);
 
 	
-	bool Conflict(t_dot2d currentPos, t_obstacle* tabObs[_MAX_OBSTACLE]);
-	float distanceLeft(t_dot2d currentPos, t_door theDoor);
-	bool isInTheDoor(t_dot2d currentPos, t_door theDoor);
+	bool Conflict(t_dot2d currentPos, t_xdr_obstacle* tabObs[_MAX_OBSTACLE]);
+	float distanceLeft(t_dot2d currentPos, t_xdr_door theDoor);
+	bool isInTheDoor(t_dot2d currentPos, t_xdr_door theDoor);
 	int min(int i, int j);
-	float distanceBetweenStartStop(t_door,t_dot2d);
+	float distanceBetweenStartStop(t_xdr_door,t_dot2d);
 
 #endif

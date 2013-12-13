@@ -5,7 +5,7 @@
 ** Contact   <cataldo.nico@gmail.com>
 ** 
 ** Started on  Thu Dec 12 16:18:19 2013 Nicolas Cataldo
-** Last update Thu Dec 12 17:26:55 2013 Nicolas Cataldo
+** Last update Fri Dec 13 01:40:16 2013 Nicolas Cataldo
 */
 
 #ifndef _DATACOMMON_H_
@@ -15,6 +15,10 @@
 #include 		<stdlib.h>
 #include		<string.h>
 #include		<math.h>
+
+#define 		_MAX_OBSTACLE	15
+#define 		_SCREEN_HEIGHT 720
+#define 		_SCREEN_WIDTH 1280
 
 typedef struct          s_dot2d
 {

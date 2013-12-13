@@ -5,7 +5,7 @@
 ** Contact   <cataldo.nico@gmail.com>
 ** 
 ** Started on  Thu Dec 12 08:06:49 2013 Nicolas Cataldo
-** Last update Thu Dec 12 21:39:05 2013 Nicolas Cataldo
+** Last update Fri Dec 13 02:23:53 2013 Nicolas Cataldo
 */
 
 #ifndef _INFOGAME_H_
@@ -18,25 +18,25 @@
 
 #include		"dataCommon.h"
 
-#define _MAX_OBSTACLE	10
-#define true 1
-#define false 0
-#define bool int
+#define 		bool int
+#define 		true 1
+#define 		false 0
 
-typedef struct		s_door
+
+typedef struct		s_xdr_door
 {
-  unsigned short int   	doorHeight;
-  unsigned short int	doorWidth;
+  int   		doorHeight;
+  int			doorWidth;
   t_dot2d		doorSource;
   t_dot2d		doorCenter;
-}			t_door;
+}			t_xdr_door;
 
 
-typedef struct		s_obstacle
+typedef struct		s_xdr_obstacle
 {
   int			obsRadius;
   t_dot2d		obsSource;
   t_dot2d		obsCenter;
-}			t_obstacle;
+}			t_xdr_obstacle;
 
 #endif /* _INFOGAME_H_ */

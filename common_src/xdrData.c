@@ -1,127 +1,89 @@
+/*
+** xdrData.c for geneticPath in /home/mjolnir
+** 
+** Made by Nicolas Cataldo
+** Contact   <cataldo.nico@gmail.com>
+** 
+** Started on  Fri Dec 13 00:52:57 2013 Nicolas Cataldo
+** Last update Fri Dec 13 03:06:37 2013 Nicolas Cataldo
+*/
+
 #include "xdrData.h"
-#include "person.h"
+
 #define SIZETEST 256
 
-// Filtre xdr pour la structure entiers2
-bool_t xdrDataFilter(XDR *xdrs, dataStruct *e)
+
+
+
+bool_t			xdr_dot2d(XDR *xdrs, t_dot2d *t)
 {
-  //XDR xdr_encode, xdr_decode;
-  //char tab[SIZETEST];
-  //bool_t toto = true;
+  if (!xdr_int(xdrs, &t->x)) return 0;
+  if (!xdr_int(xdrs, &t->y)) return 0;
 
-  //xdrmem_create(&xdr_encode, tab, SIZETEST, XDR_ENCODE);
-  //xdrmem_create(&xdr_decode, tab, SIZETEST, XDR_DECODE);
-  
-  //Encoding xdr
-  /*if( !xdr_int( &xdr_encode,&e->clientId) ) return toto;
-  fprintf(stdout,"Error when encoding clientId \n");
-
-  if(!xdr_int(&xdr_encode,&e->dataFlag)) return toto;
-  fprintf(stdout,"Error when encoding clientId \n");
-
-  if(!xdr_int(&xdr_encode,&e->dataSize)) return toto;
-  fprintf(stdout,"Error when encoding clientId \n");
-
-  if(!xdr_bytes(&xdr_encode,&(e->dataRaw),(uint*)&(e->dataSize),9999999)) return toto;
-  fprintf(stdout,"Error when encoding clientId \n");*/
-
-  //Decoding xdr
-/*
-  if(!xdr_int(&xdr_decode,&e->clientId)) return toto;
-  fprintf(stdout,"Error when decoding clientId \n");
-
-  if(!xdr_int(&xdr_decode,&e->dataFlag)) return toto;
-  fprintf(stdout,"Error when decoding clientId \n");
-
-  if(!xdr_int(&xdr_decode,&e->dataSize)) return toto;
-  fprintf(stdout,"Error when decoding clientId \n");
-
-  e->dataRaw = (char*)malloc(e->dataSize);
-
-  if(!xdr_bytes(&xdr_decode,&(e->dataRaw),(uint*)&(e->dataSize),e->dataSize)) return toto;
-  fprintf(stdout,"Error when decoding clientId \n");
-  
-  return toto;*/
-  u_int test=_MAX_PATH_SIZE;
-  //return xdr_int(xdrs,&(e->clientId))&&xdr_int(xdrs,&(e->dataFlag))&&xdr_int(xdrs,&(e->dataSize))&&xdr_array(xdrs,&(e->dataRaw),&test,test,sizeof(char),(xdrproc_t)xdr_char);
-  return xdr_int(xdrs,&(e->clientId))&&xdr_int(xdrs,&(e->dataFlag))&&xdr_int(xdrs,&(e->dataSize))&&xdr_array(xdrs,&(e->dataRaw),&test,test,sizeof(char),(xdrproc_t)xdr_char)&&xdr_array(xdrs,(char**)&e->intRaw,&test,test,sizeof(int),(xdrproc_t)xdr_int);
-}
-
-/*char* obstacleToRawData(int* dataSizeParam, t_obstacle* tabObs[], int tabSize)
-{
-  char* data;
-  int dataSize = 0;
-  int offset = 0;
-  flagDataType flag = flagObstacleList; 
-
-  //Add the number of obstacle
-  dataSize += sizeof(int);
-
-  //The number of obstacle *(ObsSize+theObsRadius(int)+the center's posX(int)+the center's posY(int))
-  dataSize += tabSize*(sizeof(obsSize) + sizeof(int) + sizeof(int) + sizeof(int));
-
-  *dataSizeParam = dataSize;
-  data = (char*)malloc(dataSize);
-  
-  //set data to 0
-  memset(data,0,dataSize);
-
-  //Number of obstacle
-  memcpy(data+offset, &tabSize, sizeof(int));
-  offset+=sizeof(int);
-
-  obsSize tempObsSize;
-  int tempObsRadius=0;
-  int tempPosX=0;
-  int tempPosY=0;
-
-  for(int i =0;i<tabSize;i++)
-    {
-      tempObsSize = tabObs[i]->getObsSize();
-      tempObsRadius = tabObs[i]->getRadius();
-      tempPosX = tabObs[i]->getCenter()->getX();
-      tempPosY = tabObs[i]->getCenter()->getY();
-
-      memcpy(data+offset, &tempObsSize, sizeof(obsSize));
-      offset+=sizeof(obsSize);
-
-      memcpy(data+offset, &tempObsRadius, sizeof(int));
-      offset+=sizeof(int);
-      
-      memcpy(data+offset, &tempPosX, sizeof(int));
-      offset+=sizeof(int);
-
-      memcpy(data+offset, &tempPosY, sizeof(int));
-      offset+=sizeof(int);
-    }
+  return 1;
 };
 
-void* rawDataToObstacle(t_obstacle* tabObs[], int* tabSize, char* data)
+bool_t			xdr_door(XDR *xdrs, t_xdr_door *t)
 {
-  int offset = 0;
+  if (!xdr_int(xdrs, &t->doorHeight)) return 0;
+  if (!xdr_int(xdrs, &t->doorWidth)) return 0;
+  if (!xdr_dot2d(xdrs, &t->doorSource)) return 0;
+  if (!xdr_dot2d(xdrs, &t->doorCenter)) return 0;
 
-  memcpy(tabSize, data+offset, sizeof(int));
-  offset+=sizeof(int);
+  return 1;
+};
+
+bool_t			xdr_obstacle(XDR *xdrs, t_xdr_obstacle *t)
+{
+  if (!xdr_int(xdrs, &t->obsRadius)) return 0;
+  if (!xdr_dot2d(xdrs, &t->obsSource)) return 0;
+  if (!xdr_dot2d(xdrs, &t->obsCenter)) return 0;
+
+  return 1;
+};
+
+bool_t			xdr_person(XDR *xdrs, t_person *t)
+{
+  if (!xdr_int(xdrs, &t->current)) return 0;
+  if (!xdr_int(xdrs, &t->mark)) return 0;
+  if (!xdr_array(xdrs
+		,(char**)&t->path
+		 ,(u_int*)&t->current // TAILLE DU TABLEAU DANS CURRENT ?
+		,_MAX_PATH_SIZE
+		,sizeof (int)
+		,(xdrproc_t)xdr_int))
+    return 0;
+
+  return 1;
+};
   
-  tabObs = (Obstacle**)malloc((*tabSize)*sizeof(Obstacle));
+/*
+ ** flag = 0 : new client   // server send info to init the world
+ ** flag = 1 : new client   // client  get info and decode
+ ** flag = 2 : known client // client send his best path
+ ** flag = 3 : known client // client send ~10 person for exchange
+ ** flag = 4 : known client // client get ~10 person in exchange
+ */
+bool_t			xdr_game_data(XDR *xdrs, t_game_data *t)
+{
+  if (!xdr_int(xdrs, &t->flag)) return 0;
+  if (!xdr_int(xdrs, &t->idClient)) return 0;
+  if (!xdr_u_int(xdrs, &t->size)) return 0;
 
-  obsSize tempObsSize;
-  int tempObsRadius=0;
-  int tempPosX=0;
-  int tempPosY=0;
-
-  for(int i = 0; i<*tabSize;i++)
+  if (t->flag == 0)
+    return 1;
+  else if (t->flag == 1)
     {
-      memcpy(&tempObsSize, data+offset, sizeof(obsSize));
-      offset+=sizeof(obsSize);
-      memcpy(&tempObsRadius, data+offset, sizeof(int));
-      offset+=sizeof(int);
-      memcpy(&tempPosX, data+offset, sizeof(int));
-      offset+=sizeof(int);
-      memcpy(&tempPosY, data+offset, sizeof(int));
-      offset+=sizeof(int);
-      
-      tabObs[i] = new Obstacle(tempObsSize, tempObsRadius, tempPosX, tempPosY);
+      if(!xdr_door(xdrs, &t->door)) return 0;
+      if (!xdr_array(xdrs
+		     ,(char**)&t->tabObs
+		     ,&t->size // TAILLE DU TABLEAU DANS CURRENT ?
+		     ,_MAX_OBSTACLE
+		     ,sizeof (t_xdr_obstacle)
+		     ,(xdrproc_t)xdr_obstacle))
+	return 0;
     }
-}*/
-  
+  return 1;
+};
+      	  
+	  

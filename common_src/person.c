@@ -31,7 +31,7 @@ Person(Person Daddy, Person Mummy,Door theDoor, t_dot2d theFlag)
 };
 */
 
-void calculMark(t_person* pers, t_obstacle* tabObs[_MAX_OBSTACLE], t_door theDoor, t_dot2d theFlag)
+void calculMark(t_person* pers, t_xdr_obstacle* tabObs[_MAX_OBSTACLE], t_xdr_door theDoor, t_dot2d theFlag)
 {
  	int MaxMark=_MAX_MARK;
 	t_dot2d currentPos;
@@ -98,7 +98,7 @@ void calculMark(t_person* pers, t_obstacle* tabObs[_MAX_OBSTACLE], t_door theDoo
 	}
 };
 
-direction* crossOver(t_person Daddy, t_person Mummy, t_door theDoor, t_dot2d theFlag)
+direction* crossOver(t_person Daddy, t_person Mummy, t_xdr_door theDoor, t_dot2d theFlag)
 {
 	int randomForSide, randomForSize;
 	static direction son[_MAX_PATH_SIZE];
@@ -142,7 +142,7 @@ direction* crossOver(t_person Daddy, t_person Mummy, t_door theDoor, t_dot2d the
   return son;
 };
 
-int Conflict(t_dot2d currentPos, t_obstacle* tabObs[_MAX_OBSTACLE])
+int Conflict(t_dot2d currentPos, t_xdr_obstacle* tabObs[_MAX_OBSTACLE])
 {
 	int i;
 	for(i=0;i<_MAX_OBSTACLE;i++)
@@ -153,12 +153,12 @@ int Conflict(t_dot2d currentPos, t_obstacle* tabObs[_MAX_OBSTACLE])
 	return false;
 }
 
-float distanceLeft(t_dot2d currentPos, t_door theDoor)
+float distanceLeft(t_dot2d currentPos, t_xdr_door theDoor)
 {
 	return distance(currentPos.x,currentPos.y,theDoor.doorCenter.x,theDoor.doorCenter.y);
 }
 
-int isInTheDoor(t_dot2d currentPos, t_door theDoor)
+int isInTheDoor(t_dot2d currentPos, t_xdr_door theDoor)
 {
 	return (currentPos.x>=theDoor.doorCenter.x && currentPos.x<=(theDoor.doorCenter.x+theDoor.doorWidth) && currentPos.y>=theDoor.doorCenter.y && currentPos.y<=(theDoor.doorCenter.y+theDoor.doorHeight));
 }
@@ -169,7 +169,7 @@ int min(int i, int j)
 	return j;
 }
 
-float distanceBetweenStartStop(t_door theDoor, t_dot2d PosFlag)
+float distanceBetweenStartStop(t_xdr_door theDoor, t_dot2d PosFlag)
 {
 	return distance(PosFlag.x,PosFlag.y,theDoor.doorCenter.x,theDoor.doorCenter.y);
 }

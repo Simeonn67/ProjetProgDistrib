@@ -1,5 +1,6 @@
-#include "person.h"
 #include "xdrData.h"
+#include "person.h"
+
 #include <rpc/types.h>
 #include <rpc/xdr.h>
 #include <rpc/rpc.h>
@@ -7,14 +8,10 @@
 #define MAX_POP 60
 
 
-t_door* theDoor;
+t_xdr_door* theDoor;
 t_dot2d theFlag;
-t_obstacle* tabObs[_MAX_OBSTACLE];
+t_xdr_obstacle* tabObs[_MAX_OBSTACLE];
 t_person* village[MAX_POP];
-
-
-#define _SCREEN_HEIGHT 720
-#define _SCREEN_WIDTH 1280
 
 void displayVillage()
 {
@@ -26,141 +23,152 @@ void displayVillage()
 			printf("%d",village[i]->path[j]);
 		printf("]\n\n\n");
 	}
+};
+
+/* Main Bye Coni~~ */
+
+int main(void)
+{
+  
+
+
+  return 0;
 }
 
-int main(int argc, char *argv[])
-{
-	srand(time(NULL));
-	int i,j,randomInteger;
-  for(i=0;i<MAX_POP;i++)
-    {
-/*		  direction randomDirection;
-  int randomInteger;
 
-  current = 0;
-  mark = -1;
+/* int main(int argc, char *argv[]) */
+/* { */
+/* 	srand(time(NULL)); */
+/* 	int i,j,randomInteger; */
+/*   for(i=0;i<MAX_POP;i++) */
+/*     { */
+/* /\*		  direction randomDirection; */
+/*   int randomInteger; */
 
-//  srand (time(NULL));
+/*   current = 0; */
+/*   mark = -1; */
 
-  for(int i=0;i<_MAX_PATH_SIZE;i++)
-    {
-      randomInteger = rand() % 8 + 1;
-      randomDirection = static_cast<direction>(randomInteger);
-      path[i] = randomDirection;
-    }
-*/
-		village[i]=malloc(sizeof(village));
-		village[i]->current=0;
-		village[i]->mark=-1;
-		for(j=0;j<_MAX_PATH_SIZE;j++)
-		{
-			randomInteger=rand()%8+1;
-			village[i]->path[j]=randomInteger;
-		}
-      //village[i] = new Person();
-    }
-  /*int newObsSize = 0;
-  int newObsPosX = 0;
-  int newObsPosY = 0; 
-  t_obstacle* newObstacle;
-  bool newObsInCollision = false;
-  int nbObs=0; //number of obstacle
-  bool posAvailable;
-	//SDL_Surface* screen;
-	//theDoor = new Door(screen, _SCREEN_WIDTH, _SCREEN_HEIGHT);
+/* //  srand (time(NULL)); */
 
-  theFlag.x=100;
-  theFlag.y=(_SCREEN_HEIGHT/2) - 138/2;
+/*   for(int i=0;i<_MAX_PATH_SIZE;i++) */
+/*     { */
+/*       randomInteger = rand() % 8 + 1; */
+/*       randomDirection = static_cast<direction>(randomInteger); */
+/*       path[i] = randomDirection; */
+/*     } */
+/* *\/ */
+/* 		village[i]=malloc(sizeof(village)); */
+/* 		village[i]->current=0; */
+/* 		village[i]->mark=-1; */
+/* 		for(j=0;j<_MAX_PATH_SIZE;j++) */
+/* 		{ */
+/* 			randomInteger=rand()%8+1; */
+/* 			village[i]->path[j]=randomInteger; */
+/* 		} */
+/*       //village[i] = new Person(); */
+/*     } */
+/*   /\*int newObsSize = 0; */
+/*   int newObsPosX = 0; */
+/*   int newObsPosY = 0;  */
+/*   t_obstacle* newObstacle; */
+/*   bool newObsInCollision = false; */
+/*   int nbObs=0; //number of obstacle */
+/*   bool posAvailable; */
+/* 	//SDL_Surface* screen; */
+/* 	//theDoor = new Door(screen, _SCREEN_WIDTH, _SCREEN_HEIGHT); */
 
-  srand (time(NULL));
+/*   theFlag.x=100; */
+/*   theFlag.y=(_SCREEN_HEIGHT/2) - 138/2; */
 
-	for(i=0;i<_MAX_OBSTACLE;i++)
-    {
-      newObsSize = rand() % 10 + 1;
-      newObstacle = new Obstacle(screen, newObsSize);
+/*   srand (time(NULL)); */
 
-      posAvailable = false;
+/* 	for(i=0;i<_MAX_OBSTACLE;i++) */
+/*     { */
+/*       newObsSize = rand() % 10 + 1; */
+/*       newObstacle = new Obstacle(screen, newObsSize); */
 
-      cout << " \n Obs size is : " << newObsSize*20 << "\n" ;
+/*       posAvailable = false; */
 
-      while(posAvailable == false)
-	{
-	  posAvailable = true;
-	  newObsPosX = rand() % ((3*_SCREEN_WIDTH)/4) + (_SCREEN_WIDTH/4) ;
-	  newObsPosY = rand() % _SCREEN_HEIGHT;
-	  newObstacle->setPosition(newObsPosX,newObsPosY);
+/*       cout << " \n Obs size is : " << newObsSize*20 << "\n" ; */
 
-	  for(int y=0;y<nbObs;y++)
-	    {
-	      if(newObstacle->isInCollision(tabObs[y]) || theDoor->isInCollision(newObstacle) )
-		{
-		  posAvailable = false;
-		  break;
-		}
-	    }
-	}
+/*       while(posAvailable == false) */
+/* 	{ */
+/* 	  posAvailable = true; */
+/* 	  newObsPosX = rand() % ((3*_SCREEN_WIDTH)/4) + (_SCREEN_WIDTH/4) ; */
+/* 	  newObsPosY = rand() % _SCREEN_HEIGHT; */
+/* 	  newObstacle->setPosition(newObsPosX,newObsPosY); */
+
+/* 	  for(int y=0;y<nbObs;y++) */
+/* 	    { */
+/* 	      if(newObstacle->isInCollision(tabObs[y]) || theDoor->isInCollision(newObstacle) ) */
+/* 		{ */
+/* 		  posAvailable = false; */
+/* 		  break; */
+/* 		} */
+/* 	    } */
+/* 	} */
       
-      nbObs++;
-      tabObs[i] = new Obstacle(screen, newObsSize);
-      tabObs[i]->setPosition(newObsPosX,newObsPosY);
-      delete newObstacle;
-    }*/
-    //printf("%d",village[1]->getMark());
-	//village[1]->calculMark(tabObs,*theDoor,theFlag);
+/*       nbObs++; */
+/*       tabObs[i] = new Obstacle(screen, newObsSize); */
+/*       tabObs[i]->setPosition(newObsPosX,newObsPosY); */
+/*       delete newObstacle; */
+/*     }*\/ */
+/*     //printf("%d",village[1]->getMark()); */
+/* 	//village[1]->calculMark(tabObs,*theDoor,theFlag); */
 	
-//	displayVillage();
-/*	for(i=0;i<MAX_POP;i++)
-	{
-		calculMark(village[i],tabObs,*theDoor,theFlag);
+/* //	displayVillage(); */
+/* /\*	for(i=0;i<MAX_POP;i++) */
+/* 	{ */
+/* 		calculMark(village[i],tabObs,*theDoor,theFlag); */
 		
-		printf("%d\n",village[i]->mark);
-	}*/
-	//printf("%d",village[1]->getMark());
-		//displayVillage();
-if(argc<2)
-{
-	printf("No enough params!\n");
-	exit(1);
-}
-  char *host = argv[1];
-  enum clnt_stat stat;
-	/*deuxmatricesopeplus aEnvoyer = {mat1,mat2,1,taille};
-	if(atoi(argv[2])==1)
-	{
-		printf("1\n");
-		aEnvoyer.ope=1;
-	}
-	else
-	{
-		printf("2\n");
-		aEnvoyer.ope=2;
-	}*/
-	dataStruct test;
-	test.clientId=0;
-	test.dataFlag=0;
-	test.dataSize=0;
-	test.dataRaw=NULL;
-	test.intRaw=malloc(100*sizeof(int));
-	int a;
-	for(a=0;a<100;a++)
-		test.intRaw[a]=a;
+/* 		printf("%d\n",village[i]->mark); */
+/* 	}*\/ */
+/* 	//printf("%d",village[1]->getMark()); */
+/* 		//displayVillage(); */
+/* if(argc<2) */
+/* { */
+/* 	printf("No enough params!\n"); */
+/* 	exit(1); */
+/* } */
+/*   char *host = argv[1]; */
+/*   enum clnt_stat stat; */
+/* 	/\*deuxmatricesopeplus aEnvoyer = {mat1,mat2,1,taille}; */
+/* 	if(atoi(argv[2])==1) */
+/* 	{ */
+/* 		printf("1\n"); */
+/* 		aEnvoyer.ope=1; */
+/* 	} */
+/* 	else */
+/* 	{ */
+/* 		printf("2\n"); */
+/* 		aEnvoyer.ope=2; */
+/* 	}*\/ */
+/* 	dataStruct test; */
+/* 	test.clientId=0; */
+/* 	test.dataFlag=0; */
+/* 	test.dataSize=0; */
+/* 	test.dataRaw=NULL; */
+/* 	test.intRaw=malloc(100*sizeof(int)); */
+/* 	int a; */
+/* 	for(a=0;a<100;a++) */
+/* 		test.intRaw[a]=a; */
 	
-  stat = callrpc(host,PROGNUM,VERSNUM,PROCNUM,(xdrproc_t)xdrDataFilter,(char*)&test,(xdrproc_t)xdrDataFilter,(char*)&test); 
-  if (stat != RPC_SUCCESS) { 
-    fprintf(stderr, "Echec de l'appel distant\n");
-    clnt_perrno(stat);
-    fprintf(stderr, "\n");
-  } else {
-	  printf("Return!\n");
-  }
-  return(0);
+/*   stat = callrpc(host,PROGNUM,VERSNUM,PROCNUM,(xdrproc_t)xdrDataFilter,(char*)&test,(xdrproc_t)xdrDataFilter,(char*)&test);  */
+/*   if (stat != RPC_SUCCESS) {  */
+/*     fprintf(stderr, "Echec de l'appel distant\n"); */
+/*     clnt_perrno(stat); */
+/*     fprintf(stderr, "\n"); */
+/*   } else { */
+/* 	  printf("Return!\n"); */
+/*   } */
+/*   return(0); */
 
 	
 
-	for(j=0;j<MAX_POP;j++)
-    {
-      free(village[j]);
-    }
-	return 0;
-}
+/* 	for(j=0;j<MAX_POP;j++) */
+/*     { */
+/*       free(village[j]); */
+/*     } */
+/* 	return 0; */
+/* } */
 
