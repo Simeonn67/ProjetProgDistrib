@@ -1,6 +1,6 @@
 #include "person.h"
 
-/*t_dot2dPerson()
+/*Person()
 {
   direction randomDirection;
   int randomInteger;

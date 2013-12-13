@@ -11,7 +11,8 @@
 
 enum e_direction { Left, Right, Up, Down, UpLeft, DownLeft, UpRight, DownRight };
 enum crossOv {LeftSide,RightSide};
-typedef enum e_direction direction;
+//typedef enum e_direction direction;
+#define direction int
 
 
 typedef struct s_person {

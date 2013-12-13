@@ -35,21 +35,41 @@ int main(int argc, char **argv)
   enum clnt_stat 	stat;
   int			i;
 
-  host = argv[1];
-
   if (argc != 2) 
     { 
       printf("Usage: %s server_address\n",argv[0]);
       exit(0);
     }
 
-  data.flag = 0;
-  data.idClient = 0;
-  data.size = 0;
-  data.tabObs=NULL;
-  
-  res.tabObs=NULL;
+	host=argv[1];
+  t_person *user1;
+  user1=(t_person*)malloc(sizeof(t_person*));
+  user1->current = 0;
+  user1->mark = -1;
+  srand (time(NULL));
 
+  for(i=0;i<_MAX_PATH_SIZE;i++)
+    {
+    /*  randomInteger = rand() % 8 + 1;
+      randomDirection = static_cast<direction>(randomInteger);*/
+//	printf("%d",rand()%8+1);
+//	user1->path[i]=0;
+//	printf("(%d) : %d\n",i,user1->path[i]);
+	user1->path[i] = rand()%8+1;
+    }
+    printf("END!!!\n");
+    
+    
+    
+
+  data.flag = 2;
+  data.idClient = 0;
+  data.size = 1;
+  data.tabObs=NULL;
+  data.tabPerson=user1;
+  res.tabObs=NULL;
+  res.tabPerson=NULL;
+  printf("On va stat\n");
   stat = callrpc(host
 		 ,PROGNUM
 		 ,VERSNUM
@@ -59,7 +79,7 @@ int main(int argc, char **argv)
 		 ,(xdrproc_t) xdr_game_data
 		 ,(char*)&res
 		 );
-
+printf("4\n");
   if (stat != RPC_SUCCESS)
     {
       fprintf(stderr, "Echec de l'appel distant\n");
@@ -68,20 +88,19 @@ int main(int argc, char **argv)
     }
   else
     {
-      printf("Call Succes dude \n");
+      printf("Call Success dude \n");
       
-      i = 0;
       printf(" data size %d \n", res.size);
-      for (i=0; i<res.size; i++)
+      /*for (i=0; i<res.size; i++)
       	{
       	  printf("Obs num %d : %d Radius, x_src = %d, y_src = %d \n"
       	     ,i
       	     ,res.tabObs[i].obsRadius
       	     ,res.tabObs[i].obsSource.x
       	     ,res.tabObs[i].obsSource.y);
-      	}
-
-      
+      	}*/
+      for(i=0;i<_MAX_PATH_SIZE;i++)
+		printf("%d",res.tabPerson[0].path[i]);
 
     }
 
