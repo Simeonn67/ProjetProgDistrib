@@ -1,9 +1,9 @@
-#include "xdrData.h"
-#include "person.h"
+#include 		"xdrData.h"
+#include 		"person.h"
 
-#include <rpc/types.h>
-#include <rpc/xdr.h>
-#include <rpc/rpc.h>
+#include 		<rpc/types.h>
+#include 		<rpc/xdr.h>
+#include 		<rpc/rpc.h>
 
 #define MAX_POP 60
 
@@ -25,12 +25,61 @@ void displayVillage()
 	}
 };
 
-/* Main Bye Coni~~ */
+/* Main By Coni~~ */
 
-int main(void)
+int main(int argc, char **argv)
 {
-  
+  char 			*host;
+  t_game_data		data;
+  enum clnt_stat 	stat;
+  int			i;
 
+  host = argv[1];
+
+  if (argc != 2) 
+    { 
+      printf("Usage: %s server_address\n",argv[0]);
+      exit(0);
+    }
+
+  data.flag = 0;
+  data.idClient = 0;
+  data.size = 0;
+
+  stat = callrpc(host
+		 ,PROGNUM
+		 ,VERSNUM
+		 ,PROCNUM
+		 ,(xdrproc_t) xdr_game_data
+		 ,(char*)&data
+		 ,(xdrproc_t) xdr_game_data
+		 ,(char*)&data
+		 );
+
+  if (stat != RPC_SUCCESS)
+    {
+      fprintf(stderr, "Echec de l'appel distant\n");
+      clnt_perrno(stat);
+      fprintf(stderr, "\n");
+    }
+  else
+    {
+      printf("Call Succes dude \n");
+      
+      i = 0;
+
+      for (i=0; i<data.size; i++)
+	{
+	  printf("Obs num %d : %d Radius, x_src = %d, y_src = %d \n"
+	     ,i
+	     ,data.tabObs[i].obsRadius
+	     ,data.tabObs[i].obsSource.x
+	     ,data.tabObs[i].obsSource.y); 
+	}
+
+      
+
+    }
 
   return 0;
 }

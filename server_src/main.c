@@ -5,7 +5,7 @@
 ** Contact   <cataldo.nico@gmail.com>
 ** 
 ** Started on  Thu Dec 12 19:28:12 2013 Nicolas Cataldo
-** Last update Fri Dec 13 02:11:16 2013 Nicolas Cataldo
+** Last update Fri Dec 13 04:01:42 2013 Nicolas Cataldo
 */
 
 #include		<stdio.h>
@@ -23,6 +23,8 @@
 SDL_Surface		*screen = NULL;
 SDL_Event		event;
 int			exitMainLoop = 0;
+int			nbClient=0;
+int			randomNbObs;
 t_door			theDoor;
 t_obstacle		tabObs[_MAX_OBSTACLE];
 
@@ -105,7 +107,6 @@ void			generateWorld()
   int			posAvailable;
   int			i;
   int 			y;
-  int			randomNbObs;
   t_obstacle		avoidDoor;
 
   newObsSize=0;
@@ -172,11 +173,57 @@ void			generateWorld()
 
 };
 
+t_game_data		initGameDataStruct()
+{
+  t_game_data		data;
+  int			i;
 
+  data.flag = 1;
+  data.idClient = nbClient;
+  data.size = randomNbObs;
+  data.door.doorHeight = theDoor.doorHeight;
+  data.door.doorWidth = theDoor.doorWidth;
+  data.door.doorSource.x = theDoor.doorSource.x;
+  data.door.doorSource.y = theDoor.doorSource.y;
+  data.door.doorCenter.x = theDoor.doorCenter.x;
+  data.door.doorCenter.y = theDoor.doorCenter.y;
+
+  data.tabObs = malloc(randomNbObs*sizeof(t_xdr_obstacle));
+  
+  for (i=0; i<randomNbObs; i++)
+    {
+      data.tabObs[i].obsRadius = tabObs[i].obsRadius;
+      data.tabObs[i].obsSource.x = tabObs[i].obsSource.x;
+      data.tabObs[i].obsSource.y = tabObs[i].obsSource.y;
+      data.tabObs[i].obsCenter.x = tabObs[i].obsCenter.x;
+      data.tabObs[i].obsCenter.y = tabObs[i].obsCenter.y;
+
+      printf("Obs num %d : %d Radius, x_src = %d, y_src = %d \n"
+	     ,i
+	     ,tabObs[i].obsRadius
+	     ,tabObs[i].obsSource.x
+	     ,tabObs[i].obsSource.y); 
+    }
+
+  return data;
+};
+
+t_game_data 		*proc_dist(t_game_data *t)
+{
+  static t_game_data resend;
+
+  if (t->flag == 0)
+    {
+      resend = initGameDataStruct();
+    }
+
+  return &resend;
+};
 
 int main(void)
 {
-    
+  bool_t 		stat;
+
   SDL_Init(SDL_INIT_VIDEO);
   screen = SDL_SetVideoMode(_SCREEN_WIDTH, _SCREEN_HEIGHT, 32, SDL_HWSURFACE);
   generateWorld();
@@ -194,5 +241,23 @@ int main(void)
 	  }
       }
   }
+
+  
+  stat = registerrpc(PROGNUM
+		     ,VERSNUM
+		     ,PROCNUM
+		     ,proc_dist
+		     ,(xdrproc_t)xdr_game_data
+		     ,(xdrproc_t)xdr_game_data
+		     );
+
+  if (stat != 0) 
+    {
+      fprintf(stderr,"Echec de l'enregistrement\n");
+      exit(1);
+    }
+
+  svc_run();
+
   return 0;
 }

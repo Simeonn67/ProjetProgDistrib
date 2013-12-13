@@ -19,20 +19,16 @@ else
 		OPTI	= -g
 endif
 
-CFLAGS		= -Wall \
-		  -W \
-		  -Wextra \
-		  -Werror \
-		  -I $(DIRCOMMONINC) \
+CFLAGS		= -I $(DIRCOMMONINC) \
 		  $(OPTI)
 
-LDFLAGSCLIENT	= -lm -lrpcsvc -lnsl -lSDL_image -lpthread \
+LDFLAGSCLIENT	= -lm -lrpcsvc -lnsl -lSDL_image -lpthread -ltirpc \
 		  -I $(DIRCOMMONINC) -I $(DIRCLIENTINC)
 
-LDFLAGSSERVER	= -lm -lSDL_image -lpthread -lnsl \
+LDFLAGSSERVER	= -lm -lSDL_image -lpthread -lnsl -ltirpc \
 		  -I $(DIRCOMMONINC) -I $(DIRSERVERINC)
 
-LDFLAGSCOMMON	= -lm -lSDL_image -lpthread -lnsl \
+LDFLAGSCOMMON	= -lm -lSDL_image -lpthread -lnsl -ltirpc \
 		  -I $(DIRCOMMONINC) -I $(DIRSERVERINC) \
 		  -I $(DIRCLIENTINC)
 
