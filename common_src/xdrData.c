@@ -5,7 +5,7 @@
 ** Contact   <cataldo.nico@gmail.com>
 ** 
 ** Started on  Fri Dec 13 00:52:57 2013 Nicolas Cataldo
-** Last update Sat Dec 14 10:34:52 2013 Nicolas Cataldo
+** Last update Sat Dec 14 10:42:38 2013 Nicolas Cataldo
 */
 
 #include "xdrData.h"
@@ -47,7 +47,7 @@ bool_t			xdr_person(XDR *xdrs, t_person *t)
   if (!xdr_int(xdrs, &t->current)) return 0;
   if (!xdr_int(xdrs, &t->mark)) return 0;
 
-  //  t->path = malloc(t->current*sizeof(int));
+  // t->path = malloc(t->current*sizeof(int));
   
   if (!xdr_array(xdrs
 		 ,(char**)&t->path
