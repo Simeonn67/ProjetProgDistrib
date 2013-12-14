@@ -101,12 +101,11 @@ int main(int argc, char **argv)
 
   calculAllMarks(village,res.tabObs,res.door,posFlag,res.size);
 
-  giveMeTheBests(village, 0, 0);
+  giveMeTheBests(village, 0);
 
   for(i=0;i<MAX_POP;i++)
-    printf("Note %d \n",village[i]->mark);
+    printf("Mark %d \n", village[i]->mark);
 
   
-
 }
   

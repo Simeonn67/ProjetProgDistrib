@@ -38,7 +38,7 @@ void mutate(t_person*);
 
 /* LA touch de Coni */
 void                    swapVillageAddr(t_person** village, int pos1, int pos2);
-void                    giveMeTheBests(t_person** village, int currentPos, int currentMax);
+void                    giveMeTheBests(t_person** village, int currentPos);
 
 
 #endif
