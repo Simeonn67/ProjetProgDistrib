@@ -5,7 +5,7 @@
 ** Contact   <cataldo.nico@gmail.com>
 ** 
 ** Started on  Fri Dec 13 00:52:33 2013 Nicolas Cataldo
-** Last update Fri Dec 13 04:28:35 2013 Nicolas Cataldo
+** Last update Sat Dec 14 06:51:27 2013 Nicolas Cataldo
 */
 
 
@@ -35,7 +35,7 @@ typedef struct s_game_data
   int			size;
   t_xdr_door		door;
   t_xdr_obstacle	*tabObs;
-  t_person		*tabPerson;
+  t_person		person;
 }			t_game_data;
 
 bool_t			xdr_dot2d(XDR *xdrs, t_dot2d *t);

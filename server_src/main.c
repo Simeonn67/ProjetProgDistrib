@@ -5,7 +5,7 @@
 ** Contact   <cataldo.nico@gmail.com>
 ** 
 ** Started on  Thu Dec 12 19:28:12 2013 Nicolas Cataldo
-** Last update Fri Dec 13 04:01:42 2013 Nicolas Cataldo
+** Last update Sat Dec 14 05:44:32 2013 Nicolas Cataldo
 */
 
 #include		<stdio.h>
@@ -20,14 +20,17 @@
 #include		"dataServer.h"
 #include		"xdrData.h"
 
-SDL_Surface		*screen = NULL;
-SDL_Event		event;
 int			exitMainLoop = 0;
 int			nbClient=0;
 int			randomNbObs;
 t_door			theDoor;
 t_obstacle		tabObs[_MAX_OBSTACLE];
-
+SDL_Surface		*screen = NULL;
+SDL_Surface		*fond;
+SDL_Surface		*flag;
+SDL_Rect		posFond;
+SDL_Rect		posFlag;
+SDL_Event		event;
 
 void			initDoor()
 {
@@ -42,8 +45,57 @@ void			initDoor()
 
   SDL_BlitSurface(theDoor.doorSurface, NULL, screen, &(theDoor.doorSource));
   SDL_Flip(screen);  
-}
+};
 
+void			makeItRun(direction *path, int nb)
+{
+  int			i;
+  int			j;
+  int			sheetNum;
+  t_sprite		sprite;
+  int  			tempo;
+  
+  sprite.spriteSource.x = posFlag.x;
+  sprite.spriteSource.y = posFlag.y+60;
+  
+  tempo = 3;
+  sheetNum=0;
+
+  for (i=0; i < nb; ++i)
+    {
+
+      if(sheetNum<8)
+	sheetNum++;
+      else
+	sheetNum=1;
+      
+      SDL_BlitSurface(fond, NULL, screen, &posFond);
+      
+      SDL_BlitSurface(flag, NULL, screen, &posFlag);
+      
+
+      for (j=0;j<randomNbObs;j++)
+	{
+	  SDL_BlitSurface(tabObs[j].obsSurface, NULL, screen, &(tabObs[j].obsSource));
+	}
+      
+
+      SDL_BlitSurface(theDoor.doorSurface, NULL, screen, &(theDoor.doorSource));
+
+      if(tempo == 3)
+	{
+	  sprite.spriteSurface=loadSprite(path[i], sheetNum);
+	  tempo = 0;
+	}
+      tempo++;
+      newSpritePos((int*)&(sprite.spriteSource.x), (int*)&(sprite.spriteSource.y), path[i]);
+      SDL_BlitSurface(sprite.spriteSurface, NULL, screen, &(sprite.spriteSource));
+
+      SDL_Flip(screen);
+
+      usleep(1500);
+    }
+};  
 void			loadObstacleImg(int pos, int numObs)
 {
   switch(numObs)
@@ -96,10 +148,6 @@ void			setObstaclePos(int pos, int x, int y)
 
 void			generateWorld()
 {
-  SDL_Surface		*fond;
-  SDL_Rect		posFond;
-  SDL_Surface		*flag;
-  SDL_Rect		posFlag;
   int			newObsSize;
   int			newObsPosX;
   int			newObsPosY;
@@ -198,11 +246,6 @@ t_game_data		initGameDataStruct()
       data.tabObs[i].obsCenter.x = tabObs[i].obsCenter.x;
       data.tabObs[i].obsCenter.y = tabObs[i].obsCenter.y;
 
-      printf("Obs num %d : %d Radius, x_src = %d, y_src = %d \n"
-	     ,i
-	     ,tabObs[i].obsRadius
-	     ,tabObs[i].obsSource.x
-	     ,tabObs[i].obsSource.y); 
     }
 
   return data;
@@ -210,12 +253,28 @@ t_game_data		initGameDataStruct()
 
 t_game_data 		*proc_dist(t_game_data *t)
 {
-  static t_game_data resend;
+  static t_game_data 	resend;
+  int			i;
+
+  printf("proc dist  \n");
 
   if (t->flag == 0)
     {
       resend = initGameDataStruct();
+      resend.tabObs = NULL;
     }
+  else if (t->flag == 2)
+    {
+
+      makeItRun(t->person.path, t->person.current);
+      
+      resend.flag = 0;
+      resend.idClient =0;
+      resend.size=0;
+      
+    }
+
+  printf("Je repond \n");
 
   return &resend;
 };
@@ -244,14 +303,14 @@ int main(void)
 
   
   stat = registerrpc(PROGNUM
-		     ,VERSNUM
-		     ,PROCNUM
-		     ,proc_dist
-		     ,(xdrproc_t)xdr_game_data
-		     ,(xdrproc_t)xdr_game_data
-		     );
+  		     ,VERSNUM
+  		     ,PROCNUM
+  		     ,proc_dist
+  		     ,(xdrproc_t)xdr_game_data
+  		     ,(xdrproc_t)xdr_game_data
+  		     );
 
-  if (stat != 0) 
+  if (stat != 0)
     {
       fprintf(stderr,"Echec de l'enregistrement\n");
       exit(1);

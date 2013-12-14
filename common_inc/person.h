@@ -5,20 +5,18 @@
 #include <time.h>
 #define _MAX_PATH_SIZE 3000
 //#define _DISTANCE_ 16
-#define _STEP 5
+#define _STEP 15
 #define _PERCENT_ALLOWED 80
 #define _MAX_MARK 100
 
 enum e_direction { Left, Right, Up, Down, UpLeft, DownLeft, UpRight, DownRight };
 enum crossOv {LeftSide,RightSide};
-//typedef enum e_direction direction;
-#define direction int
-
+typedef enum e_direction direction;
 
 typedef struct s_person {
   int current;
   int mark;
-  direction path[_MAX_PATH_SIZE];
+  direction *path;
 } t_person;
 
     /*Person();

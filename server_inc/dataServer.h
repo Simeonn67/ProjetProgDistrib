@@ -5,7 +5,7 @@
 ** Contact   <cataldo.nico@gmail.com>
 ** 
 ** Started on  Thu Dec 12 15:53:11 2013 Nicolas Cataldo
-** Last update Thu Dec 12 21:54:59 2013 Nicolas Cataldo
+** Last update Sat Dec 14 05:11:22 2013 Nicolas Cataldo
 */
 
 #ifndef			_DATA_H_
@@ -20,6 +20,7 @@
 #include		<SDL/SDL_thread.h>
 
 #include		"dataCommon.h"
+#include		"person.h"
 
 enum e_obs_size{size01 = 20, size02 = 40, 
 		size03 = 60, size04 = 80,
@@ -28,6 +29,7 @@ enum e_obs_size{size01 = 20, size02 = 40,
 		size09 = 180, size10 = 200};
 
 typedef enum e_obs_size t_obs_size;
+typedef enum e_direction_sprite t_direction_sprite;
 
 typedef struct		s_door
 {
@@ -39,8 +41,6 @@ typedef struct		s_door
   SDL_Surface		*screen;
 }			t_door;
 
-
-
 typedef struct		s_obstacle
 {
   t_obs_size		obsSize;
@@ -51,7 +51,13 @@ typedef struct		s_obstacle
   SDL_Surface		*screen;
 }			t_obstacle;
 
+typedef struct		s_sprite
+{
+  SDL_Rect		spriteSource;
+  SDL_Surface		*spriteSurface;
+}			t_sprite;
+
 int			isObstacleInCollision(t_obstacle newObstacle, t_obstacle testedObstacle);
-
-
+SDL_Surface		*loadSprite(direction direc, int which);
+void                    newSpritePos(int *x, int *y,direction direct);
 #endif /* _DATA_H_ */
