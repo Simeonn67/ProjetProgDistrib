@@ -98,7 +98,7 @@ int* crossOver(t_person* Daddy, t_person* Mummy)
 			son[i]=Mummy->path[i];
 		break;
 	}
-    return son;
+	return (int*)son;
 };
 
 int Conflict(t_dot2d currentPos, t_xdr_obstacle *tabObs, int size)
@@ -197,3 +197,49 @@ void mutate(t_person* pers)
 		pers->path[pos]=new;
 	}
 }
+
+
+/* LA touch de Coni */
+
+void			swapVillageAddr(t_person** village, int pos1, int pos2)
+{
+  t_person		*temp;
+
+  temp = village[pos1];
+  village[pos1] = village[pos2];
+  village[pos2] = village[pos1];
+};
+  
+
+void			giveMeTheBests(t_person** village
+				       ,int currentPos
+				       ,int currentMax)
+{
+  int			i;
+  int			localMax = 0;
+  int			localMaxPos;
+
+  printf("APPEL n°%d \n",currentPos);
+
+  if(currentPos == MAX_POP)
+    return;
+  else
+    {
+      localMaxPos = currentPos;
+      localMax = currentMax;
+      
+      for (i=currentPos; i<MAX_POP; i++)
+  	{
+  	  if(village[i]->mark > currentMax )
+  	    {
+  	      localMax = village[i]->mark;
+  	      localMaxPos = i;
+  	    }
+  	}
+
+      swapVillageAddr(village, currentPos, localMaxPos);
+      
+      giveMeTheBests(village, currentPos+1, localMax);
+    }
+};
+  
