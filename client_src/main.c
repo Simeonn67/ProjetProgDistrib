@@ -62,6 +62,8 @@ int main(int argc, char **argv)
       exit(0);
     }
 
+  jesuisdegue = 0;
+
   posFlag.x = 100+(86/2);
   posFlag.y = (_SCREEN_HEIGHT/2) - 138/2+138;
 

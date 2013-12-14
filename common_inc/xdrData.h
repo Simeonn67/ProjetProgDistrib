@@ -5,7 +5,7 @@
 ** Contact   <cataldo.nico@gmail.com>
 ** 
 ** Started on  Fri Dec 13 00:52:33 2013 Nicolas Cataldo
-** Last update Sat Dec 14 06:51:27 2013 Nicolas Cataldo
+** Last update Sat Dec 14 10:49:38 2013 Nicolas Cataldo
 */
 
 
@@ -44,6 +44,7 @@ bool_t			xdr_obstacle(XDR *xdrs, t_xdr_obstacle *t);
 bool_t			xdr_person(XDR *xdrs, t_person *t);
 bool_t			xdr_game_data(XDR *xdrs, t_game_data *t);
 
+int			jesuisdegue;
 
 
 #endif /* _XDRDATA_H_ */

@@ -5,7 +5,7 @@
 ** Contact   <cataldo.nico@gmail.com>
 ** 
 ** Started on  Thu Dec 12 19:28:12 2013 Nicolas Cataldo
-** Last update Sat Dec 14 10:31:57 2013 Nicolas Cataldo
+** Last update Sat Dec 14 10:51:03 2013 Nicolas Cataldo
 */
 
 #include		<stdio.h>
@@ -285,6 +285,7 @@ int main(void)
 {
   bool_t 		stat;
 
+
   SDL_Init(SDL_INIT_VIDEO);
   screen = SDL_SetVideoMode(_SCREEN_WIDTH, _SCREEN_HEIGHT, 32, SDL_HWSURFACE);
   generateWorld();
@@ -303,6 +304,8 @@ int main(void)
       }
   }
 
+
+  jesuisdegue = 1;
   
   stat = registerrpc(PROGNUM
   		     ,VERSNUM
