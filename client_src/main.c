@@ -27,10 +27,7 @@ void displayVillage()
 
 int main(int argc, char **argv)
 {
-<<<<<<< HEAD
 
-}
-=======
   char 			*host;
   t_game_data		data;
   t_game_data		res;
@@ -154,5 +151,3 @@ int main(int argc, char **argv)
 	printf(" ap : %d",village[0]->mark);
   return 0;
 }
-
->>>>>>> a244de7899574a1d03f5fc22218dbaf64623188c
