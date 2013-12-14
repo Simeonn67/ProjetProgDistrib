@@ -8,83 +8,47 @@ void calculMark(t_person* pers, t_xdr_obstacle *tabObs, t_xdr_door theDoor, t_do
   currentPos.y=theFlag.y;
   int contact=false;
   int i=0;
+  //printf("%f\n",distanceLeft(currentPos, theDoor));
   for(i=0;i<_MAX_PATH_SIZE && !contact;i++)
-    {
-      if(isInTheDoor(currentPos,theDoor))
-	{
-	  printf("END!");
-	  pers->current=i;
-	  contact=true;
-	}
-      if(Conflict(currentPos,tabObs, size))
-	{
-	  MaxMark=_MAX_MARK/2;
-	  printf("CONTACT!");
-	  contact=true;
-	}
-      
+  {
+		if(isInTheDoor(currentPos,theDoor))
+		{
+			  printf("END!");
+			  pers->current=i;
+			  contact=true;			//We exit the loop
+		}
+  	    if(Conflict(currentPos,tabObs, size))
+		{
+			  //MaxMark=_MAX_MARK/2;				/****************************
+			  //printf("CONTACT!");					* FOR OLD STYLE COMPUTATION *
+			  //contact=true;						****************************/
+			  MaxMark-=_PENALITY;
+		}
       //MaxXXi code compressor
       if(pers->path[i] == Left || pers->path[i] == UpLeft || pers->path[i] == DownLeft)
-	currentPos.x=currentPos.x-_STEP;
+			currentPos.x=currentPos.x-_STEP;
       if(pers->path[i] == Right || pers->path[i] == UpRight || pers->path[i] == DownRight)
-	currentPos.x=currentPos.x+_STEP;
-      if(pers->path[i] == Up || pers->path[i] == UpRight || pers->path[i] == UpLeft)
-	currentPos.y=currentPos.y-_STEP;
+			currentPos.x=currentPos.x+_STEP;
+	  if(pers->path[i] == Up || pers->path[i] == UpRight || pers->path[i] == UpLeft)
+			currentPos.y=currentPos.y-_STEP;
       if(pers->path[i] == Down || pers->path[i] == DownLeft || pers->path[i] == DownRight)
-	currentPos.y=currentPos.y+_STEP;
-
-      /* switch(pers->path[i]) */
-      /* 	{ */
-      /* 	case DownRight: */
-      /* 	  currentPos.x=currentPos.x+_STEP; */
-      /* 	  currentPos.y=currentPos.y+_STEP; */
-      /* 	  //printf("'\\ "); */
-      /* 	  break; */
-      /* 	case Right: */
-      /* 	  currentPos.x=currentPos.x+_STEP; */
-      /* 	  //printf("-> "); */
-      /* 	  break; */
-      /* 	case UpRight: */
-      /* 	  currentPos.x=currentPos.x+_STEP; */
-      /* 	  currentPos.y=currentPos.y-_STEP; */
-      /* 	  //printf("./ "); */
-      /* 	  break; */
-      /* 	case Down: */
-      /* 	  currentPos.y=currentPos.y+_STEP; */
-      /* 	  //printf("'| "); */
-      /* 	  break; */
-      /* 	case UpLeft: */
-      /* 	  currentPos.x=currentPos.x-_STEP; */
-      /* 	  currentPos.y=currentPos.y-_STEP; */
-      /* 	  //printf("\\. "); */
-      /* 	  break; */
-      /* 	case Left: */
-      /* 	  currentPos.x=currentPos.x-_STEP; */
-      /* 	  //printf("<- "); */
-      /* 	  break; */
-      /* 	case DownLeft: */
-      /* 	  currentPos.x=currentPos.x-_STEP; */
-      /* 	  currentPos.y=currentPos.y+_STEP; */
-      /* 	  //printf("/' "); */
-      /* 	  break; */
-      /* 	case Up: */
-      /* 	  currentPos.y=currentPos.y-_STEP; */
-      /* 	  //printf(".| "); */
-      /* 	  break; */
-      /* 	} */
+			currentPos.y=currentPos.y+_STEP;
     }
-  if(distanceLeft(currentPos, theDoor)>distanceBetweenStartStop(theDoor,theFlag))
+	if(distanceLeft(currentPos, theDoor)>distanceBetweenStartStop(theDoor,theFlag))		//If we have been more on the left than on the right
     {
-      pers->mark=0;
+		pers->mark=0;
     }
-  else
+	else
     {
-      pers->mark=MaxMark-(distanceLeft(currentPos, theDoor)*_MAX_MARK/2)/(distanceBetweenStartStop(theDoor, theFlag));
+		pers->mark=MaxMark-(distanceLeft(currentPos, theDoor)*_MAX_MARK/2)/(distanceBetweenStartStop(theDoor, theFlag));
     }
-  printf(" : %d\n",pers->mark);
+    if(pers->mark<=0)
+		pers->mark=0;
+    //if(distanceLeft(currentPos, theDoor)<200 || contact)
+		//printf(" : %d---%f---\n",pers->mark,distanceLeft(currentPos, theDoor));
 };
 
-int* crossOver(t_person* Daddy, t_person* Mummy)
+direction* crossOver(t_person* Daddy, t_person* Mummy)
 {
   int randomForSide, randomForSize;
   direction *son=malloc(_MAX_PATH_SIZE*sizeof(int));
@@ -95,30 +59,31 @@ int* crossOver(t_person* Daddy, t_person* Mummy)
   int i;
   switch(randomForSide)
     {
-    case LeftSide:
+    case LeftSide:					
       for(i=0;i<randomForSize;i++)
-	son[i]=Mummy->path[i];
+		son[i]=Mummy->path[i];		//We take the left side of the mother
       for(i=randomForSize;i<_MAX_PATH_SIZE;i++)
-	son[i]=Daddy->path[i];
+		son[i]=Daddy->path[i];		//And the right side of the father
       break;
 
-    case RightSide:
+    case RightSide:					//And up side down if you really want.........
       for(i=0;i<randomForSize;i++)
 	son[i]=Daddy->path[i];
       for(i=randomForSize;i<_MAX_PATH_SIZE;i++)
 	son[i]=Mummy->path[i];
       break;
     }
-  return (int*)son;
+  return son;
 };
 
 int Conflict(t_dot2d currentPos, t_xdr_obstacle *tabObs, int size)
 {
-  int i;
+  int i,j;
 	
   for(i=0;i<size;i++)
     {
-      if(distance(currentPos.x,currentPos.y,tabObs[i].obsCenter.x,tabObs[i].obsCenter.y)<=tabObs[i].obsRadius)
+		
+      if(distance(currentPos.x,currentPos.y,tabObs[i].obsCenter.x,tabObs[i].obsCenter.y)<=tabObs[i].obsRadius)		//If we hit an obstacle...
 	return true;
     }
   return false;
@@ -126,87 +91,46 @@ int Conflict(t_dot2d currentPos, t_xdr_obstacle *tabObs, int size)
 
 float distanceLeft(t_dot2d currentPos, t_xdr_door theDoor)
 {
-  return distance(currentPos.x,currentPos.y,theDoor.doorCenter.x,theDoor.doorCenter.y);
+  return distance(currentPos.x,currentPos.y,theDoor.doorCenter.x,theDoor.doorCenter.y);		//Distance left from the current position to the exit
 }
 
 int isInTheDoor(t_dot2d currentPos, t_xdr_door theDoor)
 {
-  return (currentPos.x>=theDoor.doorCenter.x && currentPos.x<=(theDoor.doorCenter.x+theDoor.doorWidth) && currentPos.y>=theDoor.doorCenter.y && currentPos.y<=(theDoor.doorCenter.y+theDoor.doorHeight));
+  return (currentPos.x>=theDoor.doorCenter.x && currentPos.x<=(theDoor.doorCenter.x+theDoor.doorWidth) && currentPos.y>=theDoor.doorCenter.y && currentPos.y<=(theDoor.doorCenter.y+theDoor.doorHeight));		//Are we hitting the door?
 }
-int min(int i, int j)
+
+int min(int i, int j)			//Needed when we are crossing over
 {
   if(i<j)
     return i;
   return j;
 }
 
-float distanceBetweenStartStop(t_xdr_door theDoor, t_dot2d PosFlag)
+float distanceBetweenStartStop(t_xdr_door theDoor, t_dot2d PosFlag)			//The best distance (the less ;) )
 {
   return distance(PosFlag.x,PosFlag.y,theDoor.doorCenter.x,theDoor.doorCenter.y);
 }
 
-void order(int* tab)
-{
-  bool done=false;
-  int i,temp;
-  do
-    {
-      done=false;
-      for(i=0;i<MAX_POP-1;i++)
-	{
-	  if(tab[i]>tab[i+1])
-	    {
-	      temp=tab[i];
-	      tab[i]=tab[i+1];
-	      tab[i+1]=temp;
-	      done=true;
-	    }
-	}
-    }while(done);
-}
-
-void getBests(t_person** tab, int n)
-{
-  int marks[MAX_POP],i;
-  for(i=0;i<MAX_POP;i++)
-    {
-      marks[i]=tab[i]->mark;
-    }
-  order(marks);
-  for(i=MAX_POP-1;i>MAX_POP-(n+1);i--)
-    printf("%d : %d\n",i,marks[i]);
-}
-
-int getWorst(t_person** tab)
-{
-  int marks[MAX_POP],i;
-  for(i=0;i<MAX_POP;i++)
-    {
-      marks[i]=tab[i]->mark;
-    }
-  order(marks);
-  return marks[0];
-}
-
-void calculAllMarks(t_person** pers, t_xdr_obstacle* tabObs, t_xdr_door theDoor, t_dot2d flag, int size)
+void calculAllMarks(t_person** village, t_xdr_obstacle* tabObs, t_xdr_door theDoor, t_dot2d flag, int size)		//Let's calculate all people of the village
 {
   int i;
   for(i=0;i<MAX_POP;i++)
-    if(pers[i]->mark==-1)
-      calculMark(pers[i],tabObs,theDoor,flag,size);
+    if(village[i]->mark==-1)		//If the mark haven't been compute
+      calculMark(village[i],tabObs,theDoor,flag,size);
 }
 
 void mutate(t_person* pers)
 {
   int percent, amount,i,pos,new;
-  percent=_MAX_MUTATION_PERCENT*_MAX_PATH_SIZE/100;
+  percent=_MAX_MUTATION_PERCENT*_MAX_PATH_SIZE/100;		//What amount of mutation can we do?
   amount=rand()%percent;
   for(i=0;i<amount;i++)
     {
-      pos=rand()%_MAX_PATH_SIZE;
-      new=rand()%9;
+      pos=rand()%_MAX_PATH_SIZE;		//Where to mutate?
+      new=rand()%8;						//What's the new value?
       pers->path[pos]=new;
     }
+    //printf("Mutate : %d\n",amount);
 }
 
 
@@ -253,3 +177,41 @@ void			giveMeTheBests(t_person** village
     }
 };
   
+  
+void reGen(t_person** village,t_xdr_obstacle* tabObs,t_xdr_door door,t_dot2d posFlag,int size, int howMuch)
+{
+	int j,momId,dadId,who2Mutate,oldMark,doWeMutate;
+	for(j=0;j<howMuch;j++)
+	{
+		printf("Ignition...\n");
+		momId=rand()%MAX_POP;		//Which mom?
+		dadId=rand()%MAX_POP;		//Which dad?
+		//printf("old : %d, old2 : %d\n",village[MAX_POP-1]->mark,village[who2Mutate]->mark);
+		oldMark=village[MAX_POP-1]->mark;
+		village[MAX_POP-1]->path=crossOver(village[momId],village[dadId]);		//Let's crossOver!
+		calculAllMarks(village,tabObs,door,posFlag,size);		//We calculate again the whole village's marks
+		if(village[MAX_POP-1]->mark<=oldMark)
+		{
+			printf("We need to try again\n");
+			momId=rand()%MAX_POP;		//Which mom?
+			dadId=rand()%MAX_POP;		//Which dad?		
+			village[MAX_POP-1]->path=crossOver(village[momId],village[dadId]);		//Let's crossOver!
+			calculAllMarks(village,tabObs,door,posFlag,size);		//We calculate again the whole village's marks
+		}
+		doWeMutate=rand()%100;
+		if(doWeMutate>=_CHANCES_OF_MUTATION)
+		{
+			printf("This time, we mutate\n");
+			who2Mutate=rand()%MAX_POP;	//Who do we mutate?
+			mutate(village[who2Mutate]);	//We can mutate too...
+			calculAllMarks(village,tabObs,door,posFlag,size);
+		}
+		
+	//	printf("--- : %d, ---2 : %d\n\n\n",village[MAX_POP-1]->mark,village[who2Mutate]->mark);
+		giveMeTheBests(village,0);		//We order the village
+		if(j%1000==0)
+		{		
+			printf("%d--%d--%d\n",j,village[0]->mark,village[MAX_POP-1]->mark);		//We print. We can send the best from here
+		}
+	}
+}

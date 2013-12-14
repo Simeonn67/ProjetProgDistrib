@@ -83,7 +83,7 @@ bool_t			xdr_game_data(XDR *xdrs, t_game_data *t)
       if(!xdr_door(xdrs, &t->door)) return 0;
       
       if(t->tabObs == NULL)
-	t->tabObs = malloc(t->size*(sizeof (struct s_xdr_obstacle)));
+		t->tabObs = malloc(t->size*(sizeof (struct s_xdr_obstacle)));
 
       if (!xdr_array(xdrs
 		     ,(char**)&t->tabObs
