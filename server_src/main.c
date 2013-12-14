@@ -5,7 +5,7 @@
 ** Contact   <cataldo.nico@gmail.com>
 ** 
 ** Started on  Thu Dec 12 19:28:12 2013 Nicolas Cataldo
-** Last update Sat Dec 14 05:44:32 2013 Nicolas Cataldo
+** Last update Sat Dec 14 10:31:57 2013 Nicolas Cataldo
 */
 
 #include		<stdio.h>
@@ -265,6 +265,8 @@ t_game_data 		*proc_dist(t_game_data *t)
     }
   else if (t->flag == 2)
     {
+      for(i=0;i<t->person.current;i++)
+	printf("[%d]", t->person.path[i]);
 
       makeItRun(t->person.path, t->person.current);
       

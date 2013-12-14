@@ -5,7 +5,7 @@
 #include <time.h>
 #define _MAX_PATH_SIZE 3000
 //#define _DISTANCE_ 16
-#define _STEP 15
+#define _STEP 5
 #define _PERCENT_ALLOWED 80
 #define _MAX_MARK 100
 #define _MAX_MUTATION_PERCENT 4
