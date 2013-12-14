@@ -19,6 +19,7 @@
 #define 		_MAX_OBSTACLE	15
 #define 		_SCREEN_HEIGHT 720
 #define 		_SCREEN_WIDTH 1280
+#define 		MAX_POP 60
 
 typedef struct          s_dot2d
 {
