@@ -1,15 +1,18 @@
 #include 		"xdrData.h"
 #include 		"person.h"
 #include		"dataCommon.h"
+//#include		"clientdata.h"
 
 #include 		<rpc/types.h>
 #include 		<rpc/xdr.h>
 #include 		<rpc/rpc.h>
 
+
 t_xdr_door* theDoor;
 t_dot2d theFlag;
 t_xdr_obstacle* tabObs[_MAX_OBSTACLE];
 t_person** village;
+t_game_data		data;
 
 void displayVillage()
 {
@@ -17,8 +20,9 @@ void displayVillage()
   for(i=0;i<MAX_POP;i++)
     {
       printf("%d[",i);
-      for(j=0;j<_MAX_PATH_SIZE;j++)
-	printf("%d",village[i]->path[j]);
+      /*for(j=0;j<_MAX_PATH_SIZE;j++)
+	printf("%d",village[i]->path[j]);*/
+		printf("%d",village[i]->mark);
       printf("]\n\n\n");
     }
 };
@@ -39,7 +43,7 @@ void		initVillage()
       village[i]->path=malloc(_MAX_PATH_SIZE*sizeof(int));
 
       for(j=0;j<_MAX_PATH_SIZE;j++)
-	village[i]->path[j]=rand()%9;
+			village[i]->path[j]=rand()%8;
     }
 };
 
@@ -48,7 +52,6 @@ int main(int argc, char **argv)
 {
 
   char 			*host;
-  t_game_data		data;
   t_game_data		res;
   t_dot2d   		posFlag;
   int			i;
@@ -99,19 +102,25 @@ int main(int argc, char **argv)
     }
 
   
-  initVillage();
+	initVillage();
 
-  calculAllMarks(village,res.tabObs,res.door,posFlag,res.size);
+	calculAllMarks(village,res.tabObs,res.door,posFlag,res.size);
 
+<<<<<<< HEAD
   giveMeTheBests(village, 0);
   
   
   
 
+=======
+	giveMeTheBests(village, 0);
+	
+	reGen(village,res.tabObs,res.door,posFlag,res.size,5000);		//We make crossingOver and mutation 5000 times
+>>>>>>> 22ee4b9ebcdd0dba3cd3d168cfe790e8ebdd73d1
 
   //2nd call
 
-  res.tabObs=NULL;
+/*  res.tabObs=NULL;
  
   data.tabObs=NULL;
   data.flag = 2;
@@ -151,6 +160,6 @@ int main(int argc, char **argv)
   else
     {
       printf("Call 2 Success dude \n");
-    }
+    }*/
 }
   
