@@ -23,7 +23,6 @@ void calculMark(t_person* pers, t_xdr_obstacle *tabObs, t_xdr_door theDoor, t_do
 	  contact=true;
 	}
       
-      //MaxXXi code compressor
       if(pers->path[i] == Left || pers->path[i] == UpLeft || pers->path[i] == DownLeft)
 	currentPos.x=currentPos.x-_STEP;
       if(pers->path[i] == Right || pers->path[i] == UpRight || pers->path[i] == DownRight)
@@ -33,45 +32,6 @@ void calculMark(t_person* pers, t_xdr_obstacle *tabObs, t_xdr_door theDoor, t_do
       if(pers->path[i] == Down || pers->path[i] == DownLeft || pers->path[i] == DownRight)
 	currentPos.y=currentPos.y+_STEP;
 
-      /* switch(pers->path[i]) */
-      /* 	{ */
-      /* 	case DownRight: */
-      /* 	  currentPos.x=currentPos.x+_STEP; */
-      /* 	  currentPos.y=currentPos.y+_STEP; */
-      /* 	  //printf("'\\ "); */
-      /* 	  break; */
-      /* 	case Right: */
-      /* 	  currentPos.x=currentPos.x+_STEP; */
-      /* 	  //printf("-> "); */
-      /* 	  break; */
-      /* 	case UpRight: */
-      /* 	  currentPos.x=currentPos.x+_STEP; */
-      /* 	  currentPos.y=currentPos.y-_STEP; */
-      /* 	  //printf("./ "); */
-      /* 	  break; */
-      /* 	case Down: */
-      /* 	  currentPos.y=currentPos.y+_STEP; */
-      /* 	  //printf("'| "); */
-      /* 	  break; */
-      /* 	case UpLeft: */
-      /* 	  currentPos.x=currentPos.x-_STEP; */
-      /* 	  currentPos.y=currentPos.y-_STEP; */
-      /* 	  //printf("\\. "); */
-      /* 	  break; */
-      /* 	case Left: */
-      /* 	  currentPos.x=currentPos.x-_STEP; */
-      /* 	  //printf("<- "); */
-      /* 	  break; */
-      /* 	case DownLeft: */
-      /* 	  currentPos.x=currentPos.x-_STEP; */
-      /* 	  currentPos.y=currentPos.y+_STEP; */
-      /* 	  //printf("/' "); */
-      /* 	  break; */
-      /* 	case Up: */
-      /* 	  currentPos.y=currentPos.y-_STEP; */
-      /* 	  //printf(".| "); */
-      /* 	  break; */
-      /* 	} */
     }
   if(distanceLeft(currentPos, theDoor)>distanceBetweenStartStop(theDoor,theFlag))
     {

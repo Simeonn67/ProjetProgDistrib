@@ -105,6 +105,9 @@ int main(int argc, char **argv)
 
   giveMeTheBests(village, 0);
   
+  
+  
+
 
   //2nd call
 

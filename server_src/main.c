@@ -5,7 +5,7 @@
 ** Contact   <cataldo.nico@gmail.com>
 ** 
 ** Started on  Thu Dec 12 19:28:12 2013 Nicolas Cataldo
-** Last update Sat Dec 14 10:51:03 2013 Nicolas Cataldo
+** Last update Sat Dec 14 11:07:00 2013 Nicolas Cataldo
 */
 
 #include		<stdio.h>
@@ -47,6 +47,7 @@ void			initDoor()
   SDL_Flip(screen);  
 };
 
+/* BIEN REPLACER LE SPRITE PAR RAPPORT AU X ET Y */
 void			makeItRun(direction *path, int nb)
 {
   int			i;
